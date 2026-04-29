@@ -1,0 +1,48 @@
+# Conda environment for the g_ros release notebooks.
+#
+# Tested with conda 23.x / mamba 1.x. To create:
+#     conda env create -f environment.yml
+#     conda activate g_ros_release
+#     python -m ipykernel install --user --name g_ros_release  # for Jupyter
+#
+# The four notebooks (00–03) need only the core scientific stack plus a few
+# specialty plotting/enrichment packages. The wider bioinformatics dependencies
+# from the original analysis (scanpy, mudata, pysam, etc.) are NOT needed here
+# — they were used for pre-ros3b data preparation on the cluster, which is
+# documented in the manuscript Methods but is out of scope for these notebooks.
+#
+# `synapseclient` is included so users can download the deposit programmatically;
+# `gseapy` is the KEGG enrichment engine used in Notebook 02; `brokenaxes` and
+# `adjustText` are used by the per-component panel plots in Notebook 01.
+
+name: g_ros_release
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11
+
+  # Core scientific stack
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - statsmodels
+  - matplotlib
+  - seaborn
+
+  # Jupyter
+  - jupyter
+  - jupyterlab
+  - ipykernel
+  - ipywidgets
+  - tqdm
+
+  # pip-only packages
+  - pip
+  - pip:
+      - gseapy           # KEGG / Enrichr wrapper used in Notebook 02
+      - adjustText       # inline label de-overlap in chromosome scatters
+      - brokenaxes       # split-axis plots for outlier handling in sample scatter
+      - synapseclient    # programmatic Synapse downloads

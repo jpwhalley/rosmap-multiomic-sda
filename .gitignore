@@ -1,0 +1,45 @@
+# Synapse deposit — users place their downloaded data here. The deposit
+# files are not part of this code repo (see references/ + Synapse).
+# (Pattern matches both a real `synapse/` directory and a `synapse` symlink
+# pointing at a sibling data folder.)
+synapse
+synapse/
+synapse_OLD_SYMLINK_TO_DELETE
+
+# Reference annotations users download themselves (see references/README.md).
+# Keep references/README.md tracked but ignore the actual data files.
+references/*.txt
+references/*.tsv
+references/*.csv
+
+# Python build / install artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# OS clutter
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local environment overrides
+.env
+*.local.csv
+
+# uv / venv install targets — the lock file (uv.lock) is committed,
+# but the materialised environments are local-only.
+.venv/
+venv/
+.python-version

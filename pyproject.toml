@@ -1,0 +1,78 @@
+# Project metadata for the g_ros release.
+#
+# Three install paths are supported (see README.md for details):
+#   1. uv sync                         — fast, hash-pinned via uv.lock (recommended)
+#   2. conda env create -f environment.yml
+#   3. pip install -e .                — plain pip from this file (loose pins)
+#
+# The helper module `g_ros_release.py` lives next to this file; setuptools
+# discovers it via the `py-modules` entry below.
+
+[project]
+name = "g-ros"
+version = "1.0.0"
+description = "Figure-reproduction notebooks for Whalley J.P. et al., 'Multi-omic Glial Programs in Brain Aging' (manuscript under review). Reproduces the per-component panels, KEGG enrichment, and clinical-association tests from the deposited 546-component ROSMAP SDA decomposition."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [
+    { name = "Justin Whalley", email = "justin.whalley@rosalindfranklin.edu" },
+]
+keywords = [
+    "rosmap",
+    "sda",
+    "multi-omic",
+    "alzheimers",
+    "aging",
+    "neuroscience",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+dependencies = [
+    # Core scientific stack
+    "numpy",
+    "pandas",
+    "scipy",
+    "scikit-learn",
+    "statsmodels",
+    "matplotlib",
+    "seaborn",
+
+    # Jupyter (for the notebooks)
+    "jupyter",
+    "jupyterlab",
+    "ipykernel",
+    "ipywidgets",
+    "tqdm",
+
+    # Specialty plotting helpers used by Notebook 01
+    "adjustText",
+    "brokenaxes",
+
+    # KEGG enrichment used by Notebook 02
+    "gseapy",
+
+    # Programmatic Synapse downloads (so users can fetch the deposit
+    # without leaving Python)
+    "synapseclient",
+]
+
+[project.urls]
+Repository    = "https://github.com/jpwhalley/glial-aging-multiomic"
+"Bug Tracker" = "https://github.com/jpwhalley/glial-aging-multiomic/issues"
+# Manuscript DOI + Synapse accession will be filled in on publication.
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["g_ros_release"]

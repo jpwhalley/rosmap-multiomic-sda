@@ -5,14 +5,16 @@
 Build the three-dimensional gene-expression tensor from the published ROSMAP
 snRNA-seq AnnData object.
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"Single-Nucleus RNA-Sequencing".
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Methods §"Single-Nucleus RNA-Sequencing".
 
 Original filename in the working tree: `ros1a_prepare_data_sc.py`.
 
 Pipeline:
 1. Load the Mathys 2023 ROSMAP DLPFC AnnData.
-2. Drop two QC-failing samples (projids `21157370`, `79590778`) and all
+2. Drop two QC-failing samples (projids read from `qc_failed_projids.txt` of
+   the Synapse deposit, or the file named by `G_ROS_QC_EXCLUDE_PATH`) and all
    computationally predicted doublets.
 3. Restrict to the six major cell types (Ast, Oli, Inh, OPC, Exc, Mic) and to
    participants with ≥ 100 cells in *each* of those types (yields 276
@@ -55,7 +57,13 @@ PSEUDOBULK_DIR = "mit/rna/pseudobulk/"              # output dir; 05_export_sda_
 # Constants from the manuscript Methods
 # ----------------------------------------------------------------------------
 DESIRED_CELL_TYPES = ["Exc", "Oli", "Inh", "Ast", "OPC", "Mic"]
-QC_FAILED_PROJIDS = [21157370, 79590778]
+# The two snRNA-seq projids that failed QC, one per line: qc_failed_projids.txt
+# of the Synapse deposit (donor identifiers, so in the controlled-access deposit
+# rather than this repository), or the file named by G_ROS_QC_EXCLUDE_PATH (as in
+# scripts/round2/config.py).
+QC_EXCLUDE_PATH = os.environ.get(
+    "G_ROS_QC_EXCLUDE_PATH",
+    os.path.join(os.environ.get("G_ROS_DEPOSIT_DIR", "synapse"), "qc_failed_projids.txt"))
 MIN_CELLS_PER_TYPE = 100        # ≥ 100 cells per cell type per participant
 GENE_FILTER_MIN_COUNTS = 10     # ≥ 10 counts...
 GENE_FILTER_MIN_SAMPLES = 10    # ...in ≥ 10 pseudobulk samples
@@ -149,6 +157,8 @@ def main() -> None:
     # 1. Load doublet-labelled AnnData and drop QC failures + doublets
     # ------------------------------------------------------------------------
     adata = sc.read(INPUT_ANNDATA)
+    QC_FAILED_PROJIDS = [int(l.split()[0]) for l in open(QC_EXCLUDE_PATH)
+                         if l.strip() and not l.startswith("#")]
     adata = adata[~adata.obs["projid"].isin(QC_FAILED_PROJIDS)]
     adata = adata[adata.obs["predicted_doublets"] == False]  # noqa: E712
     adata = adata[adata.obs["major_cell_type"].isin(DESIRED_CELL_TYPES)]

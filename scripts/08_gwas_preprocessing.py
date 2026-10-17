@@ -7,10 +7,14 @@ the published genotype set to the snRNA-seq cohort, (b) computing a kinship
 matrix with KING, and (c) writing a `.fam` file whose phenotype columns
 carry the per-component sample loading scores from
 `07_cluster_components.py`. The downstream GWAS itself was run with GEMMA
-on the cluster (not in this script).
+v0.96 on the cluster (not in this script): a univariate linear mixed model
+with the KING relatedness matrix, one run per component,
+`gemma -bfile <SUBSET_PREFIX> -n <column> -lmm 4 -k relatedness_matrix.txt
+-o results<component ID>`, with P-values from the score test (`p_score`).
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"GWAS" (downstream of the SDA decomposition).
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Methods §"Genetic association and eQTL analysis".
 
 Original filename in the working tree: `ros4_GWAS_association_study_maf.py`.
 
@@ -22,7 +26,7 @@ External dependencies:
 Pipeline:
 1. Read the SDA cohort's `md_samples.txt` (the 276 projids), and the full
    ROSMAP genotype `.fam` file (whose ID column is `<Study><projid>`,
-   e.g. `ROS50410319`).
+   e.g. `ROS` followed by the projid).
 2. Identify the genotype-cohort entries whose ID strips to a snRNA-seq
    projid; write them as `samples_in_common.txt`.
 3. Run PLINK to subset the genotype set to those samples (`--keep`,
@@ -32,12 +36,16 @@ Pipeline:
    the new `.fam` and write to `relatedness_matrix.txt`.
 5. Read `samples_final.csv` (component × sample) and append the per-
    component sample loadings as phenotype columns of the `.fam` so GEMMA
-   can run a GWAS per component using `--pheno-col`.
+   can run a GWAS per component (`-n <column>`). GEMMA selects phenotype
+   columns by position, and component IDs are not positions (C520 is
+   retired: IDs 1-519, 521-548), so the component ID of each column is
+   written to `gemma_phenotype_columns.txt` (line n = column n).
 
 Outputs:
 - `oth/snps/samples_in_common.txt`
 - `oth/snps/ROSMAP_arrayGenotype_maf.{bed,bim,fam}` (subsetted)
 - `oth/snps/gemma/relatedness_matrix.txt`
+- `oth/snps/gemma/gemma_phenotype_columns.txt`
 """
 from __future__ import annotations
 import os
@@ -59,9 +67,10 @@ SAMPLES_FINAL_CSV = "results/samples_final.csv"        # output of 07_cluster_co
 OUTPUT_DIR = "oth/snps/"
 GEMMA_DIR = "oth/snps/gemma/"
 
-# External binaries — adapt to your install
-PLINK_BIN = "/apps/well/plink/1.07/plink"
-KING_BIN = "/apps/well/KING/2.0.9/./king"
+# External binaries (PLINK 1.07 and KING 2.0.9 were used); set G_ROS_PLINK and
+# G_ROS_KING, or put them on PATH.
+PLINK_BIN = os.environ.get("G_ROS_PLINK", "plink")
+KING_BIN = os.environ.get("G_ROS_KING", "king")
 
 
 def main() -> None:
@@ -147,7 +156,7 @@ def main() -> None:
     # ------------------------------------------------------------------------
     # 4. Append per-component sample loadings as phenotype columns to the
     #    subsetted .fam, so GEMMA can run one GWAS per component (using
-    #    --pheno-col on the column index).
+    #    -n <column>; gemma_phenotype_columns.txt maps columns to IDs).
     # ------------------------------------------------------------------------
     samples_final = pd.read_csv(SAMPLES_FINAL_CSV, index_col=0).T
     print(f"  appending {samples_final.shape[1]} component phenotypes to .fam")
@@ -162,7 +171,8 @@ def main() -> None:
     with open(f"{SUBSET_PREFIX}.fam", "w") as f:
         for line in src_lines:
             # Preserve the first five FAM fields, then replace the original
-            # single phenotype column with the 546 component scores.
+            # single phenotype column with the component scores (one column
+            # per component, in the row order of samples_final.csv).
             parts = line.split()
             samp_id = parts[1]
             if samp_id.startswith(("ROS", "MAP")):
@@ -170,6 +180,13 @@ def main() -> None:
             comp_scores = [str(score) for score in samples_final.loc[samp_id]]
             f.write(" ".join(parts[:5] + comp_scores) + "\n")
     print(f"  wrote {SUBSET_PREFIX}.fam with component phenotypes")
+
+    # GEMMA's -n is a column position; record the component ID of each column
+    pheno_cols_path = os.path.join(GEMMA_DIR, "gemma_phenotype_columns.txt")
+    with open(pheno_cols_path, "w") as f:
+        for component_id in samples_final.columns:
+            f.write(f"{component_id}\n")
+    print(f"  wrote {pheno_cols_path}: line n is the component ID of phenotype column n")
 
 
 if __name__ == "__main__":

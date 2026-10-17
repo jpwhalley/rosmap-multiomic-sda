@@ -5,7 +5,7 @@
 # Bails on the first failing script (set -e + pipefail).
 #
 # Usage (from your validation work dir, with the synced repo at ../repo):
-#   cd ~/Desktop/g_ros_validation/work
+#   cd /path/to/work
 #   bash ../repo/scripts/run_prep.sh
 #
 # Override the repo location if it lives elsewhere:
@@ -45,4 +45,4 @@ run 05 05_export_sda_inputs.py
 
 echo
 echo "All five prep scripts completed."
-echo "Next: diff outputs against /Users/jpw/Documents/cluster/combat/ros/"
+echo "Next: diff outputs against the reference archive (REF=... python \"$SCRIPTS_DIR/diff_against_cluster.py\")"

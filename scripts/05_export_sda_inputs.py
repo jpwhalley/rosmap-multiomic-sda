@@ -4,10 +4,11 @@
 
 Concatenate the four prepared per-omic matrices into the input format SDA
 expects, write per-omic metadata files, and emit a SLURM batch script that
-launches the ten independent SDA runs.
+launches the ten SDA runs.
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"Tensor and matrix decomposition".
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Methods §"Tensor and matrix decomposition".
 
 Original filename in the working tree: `ros1_export_data.py`.
 
@@ -25,10 +26,12 @@ Pipeline:
    output.
 4. Emit `matd.sh`, a SLURM array script that runs SDA ten times under
    `SLURM_ARRAY_TASK_ID = 1..10`, each into its own `results${id}/`
-   directory. (See the README and step 06 for the full SDA invocation
-   discussion. The `--max_iter 1500` reflects what was actually achieved
-   within compute budget — the manuscript reports 1,500 iterations for
-   this reason.)
+   directory. (See scripts/README.md, step 06. The runs were launched with
+   `--max_iter 3000`; each was stopped by the cluster's 10-day time limit
+   after 1,803–2,006 iterations, and the components were taken from the
+   iteration-1,500 checkpoint, the last one common to all ten runs. The
+   script passes no seed option, so all ten runs use the same seed; the
+   logs record `random seed: 44610 90489`.)
 
 Outputs (in `OUTPUT_DIR`):
 - `rna.txt`, `meth.txt`, `chip.txt`, `prot.txt`
@@ -57,18 +60,18 @@ CELL_TYPE_ORDER = ["Ast", "Oli", "Inh", "OPC", "Exc", "Mic"]  # matches the depo
 # SDA invocation parameters (used to compose the SLURM batch script). These
 # match the manuscript Methods §"Tensor and matrix decomposition".
 # ----------------------------------------------------------------------------
-SDA_BINARY = "/apps/well/sda/1.1/./sda"           # adapt to your install
+SDA_BINARY = os.environ.get("G_ROS_SDA_BINARY", "sda")  # SDA v1.1 executable; adapt to your install
 SDA_NUM_COMPS = 2000
 SDA_NUM_BLOCKS = 8
 SDA_NUM_OPENMP_THREADS = 12
 SDA_SAVE_FREQ = 500
-SDA_MAX_ITER = 1500
+SDA_MAX_ITER = 3000                                # the runs were stopped by the time limit first; components taken at it1500 (07_cluster_components.py)
 SDA_NUM_RUNS = 10                                  # SLURM array size
 
-# Cluster-side base directories used to compose absolute paths in matd.sh.
-# Adapt these to wherever your cluster account points at; they are written
-# into the generated SLURM script verbatim.
-CLUSTER_WORKDIR = "/well/combat/users/bru597/ros"
+# Cluster-side base directory used to compose absolute paths in matd.sh
+# (G_ROS_CLUSTER_WORKDIR; default the current directory). It is written into
+# the generated SLURM script verbatim.
+CLUSTER_WORKDIR = os.environ.get("G_ROS_CLUSTER_WORKDIR", os.getcwd())
 SLURM_ACCOUNT = "combat.prj"
 SLURM_PARTITION = "long"
 SLURM_JOB_NAME = "ros"

@@ -2,8 +2,9 @@
 13_assemble_table_s1.py
 =======================
 
-Assemble the per-component annotation table that becomes Supplementary
-Table 1 of the manuscript. Integrates outputs from:
+Assemble the per-component annotation table that becomes Data S1 of the
+manuscript (called Table S1 in earlier drafts, hence the file name).
+Integrates outputs from:
 
 - ros6a_cross_clin_discrete (Sex / ceradsc / cogdx p-values; pre-computed
   by the clinical-association notebook 03 / equivalent pipeline)
@@ -16,8 +17,11 @@ Table 1 of the manuscript. Integrates outputs from:
 - Top features per omic, PIP-filtered, from `genes_final_*.csv` +
   `pip_final_*.csv` (also from `07`)
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"Component annotation".
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+This script builds the version-1 format of the table (with protein and
+`ChIP_Motif` columns). Data S1 of this version is built by
+`scripts/round2/data_s1/build_Data_S1.py`.
 
 Original filename in the working tree: `ros9b_summarize_manuscript.py`.
 
@@ -40,13 +44,15 @@ Pipeline:
 3. For each component: parse `homer_results/homerResults.html` from
    `10_chip_motifs.py` and pick the top non-false-positive motif name.
 4. Add cell-type drivers (most-positive / most-negative cell-type for each
-   component from `treatment_final.csv`).
+   component from `treatment_final.csv`). In the published Data S1 a label
+   is shown only where the individual SDA runs support that direction (see
+   the Data S1 legend), so a few labels written here are blank there.
 5. Add top positive / negative PIP > 0.5 feature per omic per component.
 6. Reorder columns, write to `results/significant_manu.csv` (the input
    table for `12_seaad_validation.py`).
 
 Output: `results/significant_manu.csv` — feeds into `12_seaad_validation.py`,
-which appends SEA-AD columns and emits the published Table S1.
+which appends SEA-AD columns and emits Data S1.
 """
 from __future__ import annotations
 import os

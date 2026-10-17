@@ -6,10 +6,11 @@ For each SDA component, extract the H3K9ac peaks with PIP > 0.5, write them
 as a BED file, and run HOMER `findMotifsGenome.pl` to test for transcription-
 factor motif enrichment in those peak sequences.
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"H3K9ac ChIP-Sequencing" / motif-enrichment;
-underlies Figure 4 (PRDM4 motif panel) and Supplementary Figure S2 (BARHL1-
-like motif enrichment in Component 351).
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Version-1 analysis: it drew the motif panels of the earlier version (PRDM4,
+Figure 4; BARHL1-like, Supplementary Figure S2). This version reports no
+motif results.
 
 Original filename in the working tree: `ros7di_chip_motifs.py`.
 
@@ -56,10 +57,10 @@ GENES_FINAL_TEMPLATE = "results/genes_final_{omic}.csv"  # output of 07_cluster_
 PIP_FINAL_TEMPLATE = "results/pip_final_{omic}.csv"      # output of 07_cluster_components.py
 CHIP_ANNOT_TSV = "data/H3K9acDomains.csv"
 
-# HOMER configuration — adapt to your install
-HOMER_BIN_DIR = "/Users/jpw/Documents/homer/bin"
+# HOMER configuration: set G_ROS_HOMER_BIN_DIR and G_ROS_SEQUENCES_DIR
+HOMER_BIN_DIR = os.environ.get("G_ROS_HOMER_BIN_DIR", "homer/bin")
 HOMER_FIND_MOTIFS = os.path.join(HOMER_BIN_DIR, "findMotifsGenome.pl")
-GENOME_FASTA = "/Users/jpw/Documents/sequences/GRCh37.p13.genome.fa"
+GENOME_FASTA = os.path.join(os.environ.get("G_ROS_SEQUENCES_DIR", "sequences"), "GRCh37.p13.genome.fa")
 
 CHIP_RESULTS_DIR = "results/chip"
 

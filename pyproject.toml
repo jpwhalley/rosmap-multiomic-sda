@@ -1,17 +1,17 @@
 # Project metadata for the g_ros release.
 #
 # Three install paths are supported (see README.md for details):
-#   1. uv sync                         — fast, hash-pinned via uv.lock (recommended)
+#   1. uv sync                         (fast, hash-pinned via uv.lock; recommended)
 #   2. conda env create -f environment.yml
-#   3. pip install -e .                — plain pip from this file (loose pins)
+#   3. pip install -e .                (plain pip from this file; loose pins)
 #
 # The helper module `g_ros_release.py` lives next to this file; setuptools
 # discovers it via the `py-modules` entry below.
 
 [project]
 name = "g-ros"
-version = "1.0.0"
-description = "Figure-reproduction notebooks for Whalley J.P. et al., 'Multi-omic Glial Programs in Brain Aging' (manuscript under review). Reproduces the per-component panels, KEGG enrichment, and clinical-association tests from the deposited 546-component ROSMAP SDA decomposition."
+version = "2.0.0"
+description = "Analysis code for Whalley J.P. et al., 'Multi-omic Analysis of Sex and Alzheimer's Disease in the Aged Human Cortex' (under review at npj Aging). Notebooks reproduce the per-component panels, KEGG enrichment, and clinical-association tests from the deposited 547-component ROSMAP SDA decomposition; scripts/ holds the pipeline, the analyses and the figure code."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
@@ -66,9 +66,10 @@ dependencies = [
 ]
 
 [project.urls]
-Repository    = "https://github.com/jpwhalley/glial-aging-multiomic"
-"Bug Tracker" = "https://github.com/jpwhalley/glial-aging-multiomic/issues"
-# Manuscript DOI + Synapse accession will be filled in on publication.
+Repository    = "https://github.com/jpwhalley/rosmap-multiomic-sda"
+"Bug Tracker" = "https://github.com/jpwhalley/rosmap-multiomic-sda/issues"
+# Manuscript DOI will be filled in on publication. Preprint (earlier version): doi:10.1101/2025.10.10.681695.
+# Data deposit: Synapse syn75275226 (version 2).
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]

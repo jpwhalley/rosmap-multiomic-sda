@@ -5,13 +5,14 @@
 Filter the imputed DNA methylation β-value matrix to the 276 snRNA-seq
 participants and to variable CpG sites.
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"DNA methylation".
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Methods §"DNA methylation".
 
 Original filename in the working tree: `ros1c_prepare_data_imputed_meth.py`.
 
 Pipeline:
-1. Load the De Jager 2014 imputed β-value matrix (Synapse syn4896408),
+1. Load the De Jager 2014 imputed β-value matrix (Synapse syn3157275),
    which is indexed by sequencing specimenIDs.
 2. Use the biospecimen metadata to map specimenID → individualID → projid,
    reindex columns to the 276 snRNA-seq projids (NaN for the 60
@@ -36,7 +37,7 @@ import pandas as pd
 # ----------------------------------------------------------------------------
 CLINICAL_CSV = "oth/meta/ROSMAP_clinical.csv"            # syn3219045/Data/Metadata
 BIOSPECIMEN_CSV = "oth/meta/ROSMAP_biospecimen_metadata.csv"  # same source
-METH_IMPUTED_TSV = "oth/meth/ROSMAP_arrayMethylation_imputed.tsv.gz"  # De Jager 2014, syn4896408
+METH_IMPUTED_TSV = "oth/meth/ROSMAP_arrayMethylation_imputed.tsv.gz"  # De Jager 2014, syn3157275
 SNRNA_PSEUDOBULK = "mit/rna/pseudobulk/Oli_rpm_normalized.csv"  # output of `01_prepare_snrna.py`; canonical projid list
 
 OUTPUT_PATH = "oth/meth/meth_crossed_with_sc.csv"

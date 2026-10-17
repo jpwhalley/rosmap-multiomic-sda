@@ -1,0 +1,48 @@
+{
+ "width_mm": 142.9,
+ "height_mm": 164.0,
+ "cells": [
+  {
+   "file": "$G_ROS_FIGURE_OUT/S9/panels/S9a_C2_sample_scores_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 0.0,
+   "w_mm": 29.0,
+   "letter": "a"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S9/panels/S9b_C2_cell_type_loadings_corrected_cell.pdf",
+   "x_mm": 31.0,
+   "y_mm": 0.0,
+   "w_mm": 37.0,
+   "letter": "b"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S9/panels/S9c_C2_RNA_gene_loadings_cell.pdf",
+   "x_mm": 70.0,
+   "y_mm": 0.0,
+   "w_mm": 72.9,
+   "letter": "c"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S9/panels/S9d_C2_CpG_loadings_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 51.5,
+   "w_mm": 70.45,
+   "letter": "d"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S9/panels/S9e_C2_H3K9ac_peak_loadings_cell.pdf",
+   "x_mm": 72.45,
+   "y_mm": 51.5,
+   "w_mm": 70.45,
+   "letter": "e"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S9/panels/S9f_C2_chr22_peaks_and_aggregate_vs_score_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 95.0,
+   "w_mm": 142.9,
+   "letter": "f"
+  }
+ ]
+}

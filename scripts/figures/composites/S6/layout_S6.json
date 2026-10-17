@@ -1,0 +1,90 @@
+{
+ "width_mm": 142.9,
+ "height_mm": 156.1,
+ "cells": [
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6a_C172_LRP8_Inh_vs_score_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 0.0,
+   "scale": 1.0,
+   "letter": "a"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6b_C172_SYN3_Inh_vs_score_cell.pdf",
+   "x_mm": 48.467,
+   "y_mm": 0.0,
+   "scale": 1.0,
+   "letter": "b"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6c_C172_aggregate_Inh_vs_score_cell.pdf",
+   "x_mm": 96.933,
+   "y_mm": 0.0,
+   "scale": 1.0,
+   "letter": "c"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6d_C172_LRP8_Inh_by_CERAD_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 34.2,
+   "scale": 1.0,
+   "letter": "d"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6e_C172_SYN3_Inh_by_CERAD_cell.pdf",
+   "x_mm": 48.467,
+   "y_mm": 34.2,
+   "scale": 1.0,
+   "letter": "e"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6f_C172_aggregate_Inh_by_CERAD_cell.pdf",
+   "x_mm": 96.933,
+   "y_mm": 34.2,
+   "scale": 1.0,
+   "letter": "f"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6g_C277_PLCB1_Exc_vs_score_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 70.4,
+   "scale": 1.0,
+   "letter": "g"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6h_C277_LRP1B_Exc_vs_score_cell.pdf",
+   "x_mm": 48.467,
+   "y_mm": 70.4,
+   "scale": 1.0,
+   "letter": "h"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6i_C277_aggregate_Exc_vs_score_cell.pdf",
+   "x_mm": 96.933,
+   "y_mm": 70.4,
+   "scale": 1.0,
+   "letter": "i"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6j_C277_PLCB1_Exc_by_diagnosis_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 104.6,
+   "scale": 1.0,
+   "letter": "j"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6k_C277_LRP1B_Exc_by_diagnosis_cell.pdf",
+   "x_mm": 48.467,
+   "y_mm": 104.6,
+   "scale": 1.0,
+   "letter": "k"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S6/panels/S6l_C277_aggregate_Exc_by_diagnosis_cell.pdf",
+   "x_mm": 96.933,
+   "y_mm": 104.6,
+   "scale": 1.0,
+   "letter": "l"
+  }
+ ]
+}

@@ -6,14 +6,16 @@ Subset the log2-TMT proteomics matrix to the 276 snRNA-seq participants and
 to proteins with no missing values among the participants who do have
 proteomics data.
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"Proteomics".
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Methods §"Proteomics".
 
 Original filename in the working tree: `ros1d_prepare_data_imputed_prot_tmt.py`.
 
 Pipeline:
-1. Load the Ping 2020 fully-processed log2-TMT matrix
-   (Synapse syn17008935; columns are TMT batch.SampleIDs).
+1. Load the fully processed log2-TMT matrix of ROSMAP round 1 (400 individuals;
+   Johnson et al. 2020; Synapse syn17008935, file syn21266454; columns are TMT
+   batch.SampleIDs).
 2. Use the proteomics assay metadata to map TMT batch.SampleID → R_ID, then
    to ROSMAP individualID and projid.
 3. Reindex to the 276 snRNA-seq projids; 171 participants lack proteomics.
@@ -23,6 +25,17 @@ Pipeline:
 
 Output: `prot/tmt/prot_crossed_with_sc.csv` — a 5,230 protein × 276 sample
 log2-TMT matrix, with NaN columns for the 171 missing-proteomics samples.
+
+Known error, kept as run (manuscript Methods, "Proteomics"): the assay
+metadata covers two TMT studies that share 126 batch.channel identifiers, and
+the SampleID → R_ID dictionary in step 2 keeps the last metadata row for each.
+112 of the 400 dorsolateral prefrontal cortex columns are therefore attributed
+to individuals of the other study: 29 of the 105 proteomes in the SDA input
+belong to other donors, and 28 donors' own proteomes are left out. The code is
+unchanged because this is the input the decomposition used; no protein-derived
+results are reported. The counts are checked in
+`scripts/round2/covariates/check/t1_tmt_mapping_check.py`, and the corrected
+mapping is used by the fixed-loading analysis in `scripts/round2/fixed_loading/`.
 """
 from __future__ import annotations
 import numpy as np
@@ -34,7 +47,7 @@ import pandas as pd
 # ----------------------------------------------------------------------------
 CLINICAL_CSV = "oth/meta/ROSMAP_clinical.csv"            # syn3219045/Data/Metadata
 
-# Ping 2020 TMT proteomics: the long filename below is the published quant
+# ROSMAP round-1 TMT proteomics (Johnson et al. 2020): the long filename below is the published quant
 # matrix as distributed on Synapse (8817 proteins × 400 TMT channels).
 TMT_MATRIX = (
     "prot/tmt/"
@@ -68,6 +81,8 @@ def main() -> None:
     parts = tmt_meta.index.str.split(".")
     tmt_meta["R_ID"] = parts.str[-1]
     tmt_meta["SampleID"] = parts.str[-3] + "." + parts.str[-2]
+    # Known error (see the module docstring): SampleIDs shared by the two TMT
+    # studies are not unique here, and to_dict() keeps the last row for each.
     sampleid_to_rid = (
         tmt_meta[["R_ID", "SampleID"]].set_index("SampleID")["R_ID"].to_dict()
     )

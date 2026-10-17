@@ -1,0 +1,65 @@
+{
+ "278": {
+  "figure": "Fig3",
+  "export": "comp278_sex .pdf",
+  "export_page_pt": [
+   398.224,
+   363.206
+  ],
+  "placed_scale_x": 0.20507878787878786,
+  "placed_scale_y": 0.1756,
+  "placed_size_pt": [
+   228.16591694696967,
+   107.14135225
+  ],
+  "bg_rect_check": [
+   228.1653408312,
+   107.1423385266
+  ],
+  "print_factor_180mm": 1.2812794318585545,
+  "print_scale_x": 0.2627632328195743,
+  "print_scale_y": 0.22499266823436218
+ },
+ "172": {
+  "figure": "Fig4",
+  "export": "comp_172.pdf",
+  "export_page_pt": [
+   319.222,
+   342.61
+  ],
+  "placed_scale_x": 0.24271515151515155,
+  "placed_scale_y": 0.24271515151515155,
+  "placed_size_pt": [
+   269.9980032121212,
+   148.09128442424245
+  ],
+  "bg_rect_check": [
+   270.0,
+   148.092
+  ],
+  "print_factor_180mm": 1.598374236338476,
+  "print_scale_x": 0.38794964495080786,
+  "print_scale_y": 0.38794964495080786
+ },
+ "277": {
+  "figure": "Fig5",
+  "export": "comp_277.pdf",
+  "export_page_pt": [
+   299.194,
+   337.827
+  ],
+  "placed_scale_x": 0.23487878787878788,
+  "placed_scale_y": 0.23487878787878788,
+  "placed_size_pt": [
+   270.00209299608133,
+   143.3099712310606
+  ],
+  "bg_rect_check": [
+   270.0,
+   143.309
+  ],
+  "print_factor_180mm": 1.7053691600514749,
+  "print_scale_x": 0.400555041198757,
+  "print_scale_y": 0.400555041198757
+ }
+}

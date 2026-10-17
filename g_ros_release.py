@@ -6,15 +6,16 @@ Shared helpers for the figure-reproduction notebooks accompanying
 
     Whalley J.P., Hunsberger H.C., Bennett D.A., Lamar M.,
     Peterson D.A., Stutzmann G.E.
-    *Multi-omic Glial Programs in Brain Aging.*
-    Manuscript under review; full citation will be filled in on publication.
+    *Multi-omic Analysis of Sex and Alzheimer's Disease in the Aged Human
+    Cortex.* Under review at npj Aging; full citation will be
+    filled in on publication.
 
 The notebooks in this repository each reproduce one or more manuscript figures
 or tables. They consume the multi-omic Sparse Decomposition of Arrays (SDA)
-component-loading matrices deposited on Synapse (sub-project under syn3219045;
-final accession TBD on publication) and a small set of public reference
-annotations the user downloads into `references/` (see references/README.md
-for sources).
+component-loading matrices deposited on Synapse (AD Knowledge Portal dataset
+syn75275226, version 2, under the ROSMAP project syn3219045) and a small set
+of public reference annotations the user downloads into `references/` (see
+references/README.md for sources).
 
 This module provides:
 - `load_deposit()` : read the Synapse deposit files into a single namespace.
@@ -23,17 +24,17 @@ This module provides:
 - `plot_celltype_bar()` : the consistent cell-type bar plot (Ast/Exc/Inh/
   Mic/OPC/Oli) used in every figure.
 - `plot_loadings_by_chromosome()` : the per-omic chromosome-scatter "Manhattan-
-  style" loadings plot that appears in Figures 2/3/4/5 + Sup S4/S5.
+  style" loadings plot (ros3b style).
 - `kegg_enrichment()` : KEGG pathway enrichment wrapper (replaces ros7ai/bi/ci
   boilerplate).
 - Module-level constants: cell-type color palette, headline component map,
   expected file names, default plot styling.
 
-Scope note: external-tool figure panels (HOMER motif analysis, GWAS/eQTL,
-SEA-AD cross-cohort validation) are documented in the manuscript Methods but
-are NOT reproduced from these notebooks. The notebooks reproduce the panels
-that follow directly from the Synapse deposit files plus public reference
-annotations.
+Scope note: panels that need controlled-access data or external tools
+(GWAS/eQTL, SEA-AD cross-cohort validation, the round-2 analyses) are produced
+by the code in scripts/ (see scripts/README.md), not by these notebooks. The
+notebooks reproduce the panels that follow directly from the Synapse deposit
+files plus public reference annotations.
 """
 
 from __future__ import annotations
@@ -78,7 +79,7 @@ OMIC_PALETTES: dict[str, list[str]] = {
     "proteins": ["#ffffb2", "#fecc5c", "#fd8d3c", "#e31a1c"],
 }
 
-# Sex colour mapping used in Fig 4 + Sup S4 sample scatters.
+# Sex colour mapping for the sample scatters (used when clinical metadata are given).
 SEX_COLORS: dict[str, str] = {
     "Male":   "#4878D0",  # seaborn muted[0]
     "Female": "#D65F5F",  # seaborn muted[2]
@@ -96,14 +97,17 @@ CHR_MAX_POS: dict[str, float] = {
 }
 
 # Headline components → manuscript figure (used for cross-referencing across
-# notebooks and for the Table S1 partial-reproduction notebook).
+# notebooks and for the Data S1 partial-reproduction notebook).
 HEADLINE_COMPONENTS: dict[int, str] = {
-    351: "Figure 2 — microglial immunometabolic program",
-    2:   "Figure 3 — multi-omic regulatory features",
-    74:  "Figure 4 — sex-differentiated programs",
-    87:  "Figure 5 — astrocyte immune-modulation / epigenetic-reprogramming",
-    278: "Supplementary Figure S4 — female-biased OPC/precursor shift",
-    177: "Supplementary Figure S5 — microglial bioenergetic program",
+    74:  "Figure 2: sex-associated regulatory variation",
+    278: "Figure 3: sex-biased component shared by OPCs and mature oligodendrocytes",
+    172: "Figure 4: neuron-dominated component associated with neuritic plaque burden",
+    277: "Figure 5: neuron-dominated component associated with clinical Alzheimer's dementia",
+    21:  "Supplementary Figure S7: ectopic olfactory receptor expression and its cis-genetic regulation",
+    351: "Supplementary Figure S8: a single-individual multi-omic profile",
+    2:   "Supplementary Figure S9: a single-individual multi-omic profile",
+    87:  "Supplementary Figure S10: a single-individual multi-omic profile",
+    177: "Supplementary Figure S11: a component dominated by one donor",
 }
 
 # Default IQR multiplier for outlier detection in sample scatter (broken-axis).
@@ -152,17 +156,19 @@ class Deposit:
     Attributes
     ----------
     samples : pd.DataFrame
-        Component × sample loadings. Index is component ID (1..546). Columns are
+        Component × sample loadings. Index is component ID (1–519 and
+        521–548; ID 520 is retired, so ID is not the row number). Columns are
         ROSMAP sample IDs (string).
     cell_type : pd.DataFrame
-        Component × cell-type loadings. Index is component ID (1..546). Columns
-        are the six cell types (Ast, Oli, Inh, OPC, Exc, Mic — note this is the
+        Component × cell-type loadings. Index is component ID. Columns are the
+        six cell types (Ast, Oli, Inh, OPC, Exc, Mic — note this is the
         file's column order, not the figure plotting order).
     genes : dict[str, pd.DataFrame]
         Per-omic feature × component matrices (PIP > 0.5 masked). Keys are
-        "RNA", "meth", "chip", "proteins". Each DataFrame has features as rows
+        "RNA", "meth", "chip", and "proteins" only if the deposit has
+        proteins.txt (version 1). Each DataFrame has features as rows
         (gene symbol / CpG ID / peak ID / protein|UniProt) and component IDs
-        (1..546) as columns. Entries below the PIP threshold are NaN.
+        as columns. Entries below the PIP threshold are NaN.
     deposit_dir : Path
         Directory holding the deposit files.
     references : dict[str, pd.DataFrame]
@@ -197,14 +203,16 @@ def load_deposit(
     ----------
     deposit_dir
         Directory containing the deposit files (samples_final.csv,
-        cell_type.csv, RNA.txt, meth.txt, chip.txt, proteins.txt).
+        cell_type.csv, RNA.txt, meth.txt, chip.txt; proteins.txt is read
+        only if present, as in version 1).
     references_dir
         Optional. If `load_references=True`, this directory must contain the
         reference annotation files (Homo_sapiens.GRCh38.100.txt,
         ROSMAP_arrayMethylation_metaData.tsv, H3K9acDomains.csv).
     load_references
-        Whether to read the reference annotation files. Most notebooks need
-        these; the setup notebook does not.
+        Whether to read the reference annotation files. All four release
+        notebooks pass `load_references=True`; notebooks 01 and 02 use the
+        tables.
 
     Returns
     -------
@@ -221,6 +229,8 @@ def load_deposit(
     # Per-omic feature × component (PIP > 0.5 masked, tab-separated)
     genes: dict[str, pd.DataFrame] = {}
     for omic in ("RNA", "meth", "chip", "proteins"):
+        if omic == "proteins" and not (deposit_dir / DEPOSIT_FILES[omic]).exists():
+            continue  # proteins.txt is optional (version 1 has it); the notebooks report no protein-derived results
         df = pd.read_csv(
             deposit_dir / DEPOSIT_FILES[omic],
             sep="\t",
@@ -285,7 +295,7 @@ def plot_celltype_bar(
     deposit
         Deposit container.
     component_id
-        Component to plot (1..546).
+        Component ID to plot (1–519 or 521–548).
     ax
         Axes to draw on. If None, create a new figure.
     order
@@ -395,13 +405,15 @@ def plot_sample_scatter(
         target.scatter(df["x_pos"], df["loading"],
                        c="#444444", edgecolors="k", linewidth=0.0, alpha=0.8)
 
+    # without metadata the samples stay in deposit column order
+    xlabel = "Samples (sorted by age at death)" if sample_metadata is not None else "Samples"
     if has_outliers:
         for sub_ax in target.axs:
             sub_ax.set_xticks([])
-        target.set_xlabel("Samples (sorted by age at death)")
+        target.set_xlabel(xlabel)
     else:
         target.set_xticks([])
-        target.set_xlabel("Samples (sorted by age at death)")
+        target.set_xlabel(xlabel)
         target.set_ylabel("loading / score")
     return target
 
@@ -419,7 +431,7 @@ def plot_loadings_by_chromosome(
 ) -> plt.Axes:
     """Plot per-feature loadings laid out by chromosome (Manhattan-style).
 
-    Used for the per-omic loading panels in Figures 2/3/4/5 + Sup S4/S5.
+    Used for the per-omic loading panels of Notebook 01.
 
     Parameters
     ----------
@@ -488,7 +500,10 @@ def plot_loadings_by_chromosome(
                 texts.append(ax.text(xi, yi, in_chrom.loc[fid, label_col],
                                      color="black" if yi > 0 else "gray", fontsize=8))
     if adjust_text is not None and texts:
-        adjust_text(texts, arrowprops=dict(arrowstyle="-", color="k", lw=0.5))
+        # a fixed iteration budget instead of adjustText's default 1-second time limit, so that the label
+        # placement does not depend on the speed of the machine (2,000 is about what 1 s allowed when the
+        # notebook outputs were regenerated)
+        adjust_text(texts, arrowprops=dict(arrowstyle="-", color="k", lw=0.5), iter_lim=2000)
 
     midpoints = (shift[1:] + shift[:-1]) / 2.0
     ax.set_xticks(midpoints)
@@ -511,12 +526,16 @@ def features_to_genes(
     one component in one omic.
 
     - RNA: feature index already gene symbols → returned as-is.
-    - proteins: feature index is "SYMBOL|UniProt" → strip to SYMBOL.
-    - meth: requires `deposit.references["meth_annot"]`; uses the first entry
-      of the manifest's `RefGene` column per CpG.
-    - chip: requires `deposit.references["chip_annot"]`; uses the manifest's
-      `Classification` column per peak (the column carries a gene-symbol-like
-      annotation for nearest-gene; intergenic peaks are dropped).
+    - proteins: feature index is "SYMBOL|UniProt" → strip to SYMBOL; when
+      `deposit.references["gene_annot"]` is loaded, keep only symbols that are
+      an Ensembl 100 `gene_name` (as for Fig 2d of version 1; this version
+      reports no protein-derived results).
+    - meth: requires `deposit.references["meth_annot"]`; uses every entry
+      of the manifest's `RefGene` column per CpG (as for the Component 74 CpG
+      enrichment).
+    - chip: not supported; raises `NotImplementedError`. The peak table
+      (`chip_annot`) has no gene column, so peaks would need an external
+      nearest-gene step (e.g. bedtools closest or HOMER annotatePeaks.pl).
     """
     feats = deposit.pip_features(omic, component_id)
     if feats.empty:
@@ -524,7 +543,11 @@ def features_to_genes(
     if omic == "RNA":
         return list(dict.fromkeys(feats.index))
     if omic == "proteins":
-        return list(dict.fromkeys([str(f).split("|")[0] for f in feats.index]))
+        symbols = [str(f).split("|")[0] for f in feats.index]
+        if "gene_annot" in deposit.references:   # as in version 1 (Fig 2d): only symbols that are an Ensembl 100 gene_name
+            known = set(deposit.references["gene_annot"]["gene_name"].dropna())
+            symbols = [s for s in symbols if s in known]
+        return list(dict.fromkeys(symbols))
     if omic == "meth":
         if "meth_annot" not in deposit.references:
             raise ValueError("meth → gene mapping needs deposit.references['meth_annot']; "
@@ -535,16 +558,16 @@ def features_to_genes(
             if cpg in annot.index:
                 refgene = annot.loc[cpg, "RefGene"]
                 if pd.notna(refgene):
-                    genes.append(str(refgene).split(";")[0])
+                    genes.extend(str(refgene).split(";"))   # every listed gene, as for the Component 74 CpG enrichment
         return list(dict.fromkeys(genes))
     if omic == "chip":
         # H3K9ac peaks (`H3K9acDomains.csv`) carry only Chr / Start / End /
-        # Classification (Promoter / Enhancer / Other) — no gene symbol or
+        # Classification (Promoter / Enhancer / Other), with no gene symbol or
         # nearest-gene column. Mapping ChIP peaks to genes requires an
         # external nearest-gene step (e.g., bedtools closest against an
         # Ensembl GTF, or HOMER's annotatePeaks.pl), which is out of scope
-        # for these notebooks. The published manuscript's ChIP-side analysis
-        # was motif enrichment via HOMER (ros7di), not pathway enrichment.
+        # for these notebooks. The manuscript reports no pathway enrichment
+        # for H3K9ac peaks.
         raise NotImplementedError(
             "ChIP peak → gene mapping is not provided by the deposit. "
             "The H3K9acDomains.csv manifest has no gene-symbol column. "
@@ -565,7 +588,8 @@ def kegg_enrichment(
     background: Optional[list[str]] = None,
 ) -> pd.DataFrame:
     """Run KEGG pathway enrichment for one component in one omic, using
-    `gseapy.enrichr`.
+    `gseapy.enrichr`. If Enrichr answers HTTP 429 (rate limit), the call is
+    retried after 10, 20, 40, 80 and 160 s.
 
     Parameters
     ----------
@@ -603,15 +627,23 @@ def kegg_enrichment(
     if background is None and omic == "RNA":
         background = list(deposit.genes["RNA"].index)
 
-    enr = gp.enrichr(
-        gene_list=gene_list,
-        gene_sets="KEGG_2021_Human",
-        organism=organism,
-        background=background,
-        outdir=None,
-        cutoff=cutoff,
-        no_plot=True,
-    )
+    import time
+    for attempt in range(6):
+        try:
+            enr = gp.enrichr(
+                gene_list=gene_list,
+                gene_sets="KEGG_2021_Human",
+                organism=organism,
+                background=background,
+                outdir=None,
+                cutoff=cutoff,
+                no_plot=True,
+            )
+            break
+        except Exception as e:  # Enrichr rate limit (HTTP 429): wait and retry
+            if "429" not in str(e) or attempt == 5:
+                raise
+            time.sleep(10 * 2 ** attempt)
     if enr.results is None or enr.results.empty:
         return pd.DataFrame()
     return enr.results.sort_values("Adjusted P-value")
@@ -756,8 +788,8 @@ def clinical_association_table(
 ) -> pd.DataFrame:
     """Run clinical association tests and add manuscript-style adjusted p-values.
 
-    Table S1 reports Benjamini-Hochberg adjusted p-values calculated separately
-    for each clinical variable across all 546 components. To reproduce those
+    Data S1 reports Benjamini-Hochberg adjusted p-values calculated separately
+    for each clinical variable across all 547 components. To reproduce those
     values exactly, leave `components=None` and filter the returned table for
     the components of interest after adjustment.
 
@@ -816,15 +848,25 @@ def clinical_association_table(
 # Convenience: per-component summary printout
 # -----------------------------------------------------------------------------
 
+def top_cell_types(loadings: pd.Series) -> tuple[Optional[str], Optional[str]]:
+    """(top positive, top negative) cell type, as in the Data S1 columns: the
+    cell type with the largest loading if any loading is > 0, and the one
+    with the smallest loading if any loading is < 0; None otherwise. (Data S1
+    additionally leaves a label blank where the individual SDA runs do not
+    support its direction; that check needs the run-level outputs.)"""
+    pos = loadings.idxmax() if loadings.max() > 0 else None
+    neg = loadings.idxmin() if loadings.min() < 0 else None
+    return pos, neg
+
+
 def component_summary(deposit: Deposit, component_id: int) -> dict:
     """Compact summary of one component for notebook narrative cells."""
+    top_pos, top_neg = top_cell_types(deposit.cell_type.loc[component_id])
     return {
         "component_id": component_id,
         "manuscript_role": HEADLINE_COMPONENTS.get(component_id, "(non-headline component)"),
-        "n_features_RNA":      int(deposit.genes["RNA"][component_id].notna().sum()),
-        "n_features_meth":     int(deposit.genes["meth"][component_id].notna().sum()),
-        "n_features_chip":     int(deposit.genes["chip"][component_id].notna().sum()),
-        "n_features_proteins": int(deposit.genes["proteins"][component_id].notna().sum()),
-        "top_celltype_pos":    deposit.cell_type.loc[component_id].idxmax(),
-        "top_celltype_neg":    deposit.cell_type.loc[component_id].idxmin(),
+        # n_features_RNA, n_features_meth, n_features_chip (and n_features_proteins for a version-1 deposit)
+        **{f"n_features_{omic}": int(df[component_id].notna().sum()) for omic, df in deposit.genes.items()},
+        "top_celltype_pos":    top_pos,
+        "top_celltype_neg":    top_neg,
     }

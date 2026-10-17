@@ -43,3 +43,15 @@ Thumbs.db
 .venv/
 venv/
 .python-version
+
+# Outputs and inputs of scripts/round2 and scripts/figures. Their defaults sit
+# at the repository root (see scripts/round2/config.py); derived and per-donor
+# files must never be committed.
+/results/
+/rosmap/
+/seaad/
+/sequences/
+/version1_results/
+private/
+paths.env
+scripts/figures/composites/*/build_*/

@@ -6,9 +6,17 @@ Cell-type-specific eQTL analysis: for each (component, significant SNP,
 high-PIP feature) combination, fit a linear model of feature value against
 genotype within each cell type and plot a boxplot per tissue.
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"GWAS" / eQTL analysis. Underlies Supplementary
-Figure S1 (Component 21 olfactory-receptor eQTL signal).
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Methods §"Genetic association and eQTL analysis". Underlies Supplementary
+Figure S7e (Component 21 olfactory-receptor eQTL signal).
+
+Known label error: `classify_qtl` compares the SNP position from the genotype
+`.bim` (NCBI36/hg18) with GRCh38 gene coordinates, so the `cis|trans` part of
+the RNA output file names can be wrong. For Component 21 the file is named
+`..._trans_eQTL_tissues.pdf`, but rs6664332 lies 81 kb from the OR2L3 gene
+start on GRCh38 (inside OR2AK2): a cis eQTL, as the manuscript states. The
+label enters only the file name; the tests and plots are unaffected.
 
 Original filename in the working tree: `ros8_eQTLs.py`.
 
@@ -75,7 +83,7 @@ METH_CROSSED = "data/meth/meth_crossed_with_sc.csv"   # output of 03_prepare_met
 PROT_CROSSED = "data/prot/prot_crossed_with_sc.csv"   # output of 04_prepare_proteomics.py
 
 SNP_BED_PREFIX = "data/snp/ROSMAP_arrayGenotype_maf"  # output of 08_gwas_preprocessing.py
-GWAS_PATH_TEMPLATE = "/Users/jpw/Documents/rosmap/gwas/results{comp}.abbr.txt"
+GWAS_PATH_TEMPLATE = os.path.join(os.environ.get("G_ROS_GWAS_DIR", "output/"), "results{comp}.abbr.txt")  # 09_manhattan_plots.py output
 
 OMIC_NAMES = {1: "RNA", 2: "meth", 3: "chip", 4: "proteins"}
 QTL_OUTPUT_DIRS = {

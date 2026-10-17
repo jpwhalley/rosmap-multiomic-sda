@@ -1,0 +1,41 @@
+{
+ "width_mm": 142.9,
+ "height_mm": 172.0,
+ "cells": [
+  {
+   "file": "$G_ROS_FIGURE_OUT/S11/panels/S11a_C177_samples_cell.pdf",
+   "x_mm": 0,
+   "y_mm": 0,
+   "scale": 1,
+   "letter": "a"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S11/panels/S11b_C177_cell_type_cell.pdf",
+   "x_mm": 72.95,
+   "y_mm": 0,
+   "scale": 1,
+   "letter": "b"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S11/panels_fix/S11c_C177_RNA_cell.pdf",
+   "x_mm": 0,
+   "y_mm": 42.0,
+   "scale": 1,
+   "letter": "c"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S11/panels/S11d_C177_meth_cell.pdf",
+   "x_mm": 0,
+   "y_mm": 94.0,
+   "scale": 1,
+   "letter": "d"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S11/panels/S11e_C177_NDUFA13_Mic_and_aggregate_cell.pdf",
+   "x_mm": 0,
+   "y_mm": 132.0,
+   "scale": 1,
+   "letter": "e"
+  }
+ ]
+}

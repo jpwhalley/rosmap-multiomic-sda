@@ -6,24 +6,37 @@ Cross-cohort validation of ROSMAP SDA components against the SEA-AD DLPFC
 cohort: for each significant ROSMAP component, find the most-correlated (or
 anti-correlated) SEA-AD component using shared PIP > 0.5 RNA features, plot
 the scatter, and add `SEA-AD_comp` / `SEA-AD_corr` columns to the
-component-annotation table that becomes Supplementary Table 1.
+component-annotation table that becomes Data S1.
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"Cross-cohort validation"; underlies the SEA-AD
-correlation panels of Figure 4 and Supplementary Figures S2 + S3.
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Methods §"Validation in an independent cohort"; the `SEA-AD_comp` and
+`SEA-AD_corr` columns of Data S1. The Spearman correlation, the permutation
+null and the replication criterion are computed in
+`scripts/round2/concentration/structure/02_seaad.py`, and the SEA-AD panels
+(Figures 2c, 3d, S1d, S3d) are drawn by `scripts/figures/`.
 
 Original filename in the working tree: `synth1b_croos_clin_manuscript.py`.
 
 External dependencies:
-- SEA-AD processed snRNA-seq from the Allen Institute SEA-AD AWS bucket
-  (https://registry.opendata.aws/allen-sea-ad-atlas/). The original
+- SEA-AD processed snRNA-seq; the version used was downloaded from CZ CELLxGENE
+  Discover on 5 October 2023 (versions in scripts/seaad/README.md). The original
   analysis decomposed the SEA-AD DLPFC slice with the same SDA pipeline as
   this study, producing `genes_final.csv` and a clinical-association
   `clin_attr_sig_results.csv` per SEA-AD component. Those outputs are the
   inputs here.
 
+SEA-AD catalogue: 141 components. The SEA-AD decomposition was clustered
+with the same run-count step as the ROSMAP one (see
+`07_cluster_components.py`) and has the same error: counted correctly,
+SEA-AD components 9 and 128 come from only 4 of the 10 runs. They are
+retired here (`RETIRED_SEAAD_COMPONENTS`); the other 141 keep their IDs
+(1-143), members and loadings. Every ROSMAP component's partner is chosen
+from those 141.
+
 Pipeline:
-1. Load SEA-AD per-omic SDA outputs and clinical-association table.
+1. Load SEA-AD per-omic SDA outputs and clinical-association table; drop
+   the retired SEA-AD components.
 2. Load this study's ROSMAP per-omic outputs and the in-progress
    `significant_manu.csv` (the precursor table from
    `13_assemble_table_s1.py`).
@@ -38,13 +51,12 @@ Pipeline:
    - Plot ROSMAP vs SEA-AD feature loadings as a scatter + regression line.
 5. Add an `omics_count` column to the table by counting how many of the
    four `Top_Positive_*` / `Top_Negative_*` pairs have a non-null entry,
-   then write `significant_df_validated_manu.csv` (this becomes Supplementary
-   Table 1).
+   then write `significant_df_validated_manu.csv` (this becomes Data S1).
 
 Outputs:
 - `figs/outlier/<component>/<component>_dlpfc_correlation.pdf` per
   significant component.
-- `results/significant_df_validated_manu.csv` — Supplementary Table 1.
+- `results/significant_df_validated_manu.csv` — Data S1.
 """
 from __future__ import annotations
 import os
@@ -70,13 +82,18 @@ ROSMAP_PIP_FINAL_CSV = "results/pip_final_RNA.csv"
 # `significant_manu.csv` is the precursor table written by
 # `13_assemble_table_s1.py`. This script adds SEA-AD columns to it and
 # writes the final `significant_df_validated_manu.csv`, which becomes
-# Supplementary Table 1.
+# Data S1.
 INPUT_SIGNIFICANT_CSV = "results/significant_manu.csv"
 OUTPUT_TABLE_S1_CSV = "results/significant_df_validated_manu.csv"
 
 PLOT_OUTPUT_TEMPLATE = "figs/outlier/{component}"
 
 PIP_THRESHOLD = 0.5
+
+# SEA-AD components that fail the >= 5-of-10-runs criterion when runs are
+# counted correctly (4 runs each); excluded from partner matching. IDs of the
+# other SEA-AD components are unchanged.
+RETIRED_SEAAD_COMPONENTS = (9, 128)
 
 OUTPUT_COLUMN_ORDER = [
     "omics_count",
@@ -114,6 +131,9 @@ def main() -> None:
     # ------------------------------------------------------------------------
     seaad_feature_names = pd.read_csv(SEAAD_FEATURE_NAMES_CSV, index_col=0)
     seaad_genes = pd.read_csv(SEAAD_GENES_FINAL_CSV, index_col=0)
+    seaad_genes = seaad_genes.loc[~seaad_genes.index.isin(RETIRED_SEAAD_COMPONENTS)]
+    print(f"  SEA-AD components available as partners: {len(seaad_genes)} "
+          f"(retired: {', '.join(str(c) for c in RETIRED_SEAAD_COMPONENTS)})")
     seaad_clin = pd.read_csv(SEAAD_CLIN_RESULTS_CSV, index_col=0)
     seaad_clin = seaad_clin[seaad_clin["reject"]]  # significant SEA-AD components only
 
@@ -180,7 +200,7 @@ def main() -> None:
             "SEA-AD": seaad_subset.loc[seaad_id].values,
         }, index=pip_filter)
 
-        # Comp 74 panel is square (matches Fig 4 layout); others stay rectangular
+        # Comp 74 panel is square (the version-1 Fig 4 layout); others stay rectangular
         figsize = (6, 6) if k == 74 else (8, 6)
         fig, ax = plt.subplots(figsize=figsize)
         sns.regplot(x="ROSMAP", y="SEA-AD", data=df_plot, ax=ax, ci=None)
@@ -195,7 +215,7 @@ def main() -> None:
         plt.close(fig)
 
     # ------------------------------------------------------------------------
-    # 5. Add omics_count + write Table S1
+    # 5. Add omics_count + write Data S1
     # ------------------------------------------------------------------------
     omics_presence = pd.DataFrame({
         omic: significant_df[cols].notna().any(axis=1)

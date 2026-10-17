@@ -1,0 +1,46 @@
+Record of the public look-ups summarised by n07_c21_public_eqtl.py. Save the responses under
+$G_ROS_RESULTS_DIR/revision_analyses/neuronal_c21/net/ with the file names below.
+
+Read-only public queries made on 2026-10-13 (13:58-14:23 CDT) for the C21 'previously unreported eQTL' check.
+Raw responses are saved as fetched (net/ above); out/n07_* summarise them (n07_c21_public_eqtl.py).
+
+GTEx portal API v2 (HTTP 200 unless noted)
+  https://gtexportal.org/api/v2/dataset/variant?snpId=rs6664332&datasetId=gtex_v8                      -> gtex_variant_rs6664332.json
+  https://gtexportal.org/api/v2/association/singleTissueEqtl?variantId=chr1_247965627_G_A_b38&datasetId={gtex_v8,gtex_v10}&itemsPerPage=1000
+                                                                                                      -> gtex_sig_eqtl_variant_{gtex_v8,gtex_v10}.json
+  https://gtexportal.org/api/v2/reference/gene?geneId=OR2L3&geneId=OR2L13&geneId=OR2AK2&geneId=OR2L2&geneId=OR2L5&geneId=OR2L8&geneId=OR2M4&gencodeVersion=v26&genomeBuild=GRCh38%2Fhg38
+                                                                                                      -> gtex_genes.json (v39: gtex_genes_v39.json)
+  https://gtexportal.org/api/v2/association/singleTissueEqtl?gencodeId=<id>&datasetId=<ds>&itemsPerPage=10000   -> gtex_sig_<gene>_<ds>.json
+  https://gtexportal.org/api/v2/association/independentEqtl?gencodeId=<id>&datasetId=<ds>&itemsPerPage=1000     -> gtex_indep_<gene>_<ds>.json
+      genes OR2L3, OR2L13, OR2L2, OR2AK2; gtex_v8 with GENCODE v26 ids (ENSG00000198128.3, ENSG00000196071.4,
+      ENSG00000203663.3, ENSG00000187080.8), gtex_v10 with GENCODE v39 ids (.4, .5, .4, .10)
+      (gtex_v10 independentEqtl returned no rows for every gene: endpoint has no v10 data)
+  https://gtexportal.org/api/v2/dataset/ld?gencodeId=<v26 id>&datasetId=gtex_v8&itemsPerPage=100000             -> gtex_ld_<gene>_v8.json
+  https://gtexportal.org/api/v2/association/dyneqtl?gencodeId=<v26 id>&variantId=chr1_247965627_G_A_b38&tissueSiteDetailId={Brain_Frontal_Cortex_BA9,Brain_Cortex}&datasetId=gtex_v8
+                                                                                                      -> gtex_dyn/<gene>_<tissue>.json
+      (HTTP 400 "does not have sufficient expression" for OR2AK2 in both tissues and OR2L3 in Brain_Cortex)
+
+eQTL Catalogue
+  https://www.ebi.ac.uk/eqtl/api/v2/datasets/?size=1000  -> HTTP 410 "This API is no longer available" (eqtlcat_datasets.json);
+      same for /api/v2/, /api/v3/. Data-access page saved as eqtlcat_data_access.html (FTP/tabix only).
+  ELIXIR-Estonia eQTL Catalogue credible-set browser backend (linked from the eQTL Catalogue data-access page):
+  https://elixir.ut.ee/eqtl/api/subset?q=rs6664332&field=rsid                                         -> elixir/subset_rs6664332.json
+      (endpoint found in https://elixir.ut.ee/eqtl/js/app.c3154a01.js, saved as elixir/app.js.txt)
+
+MetaBrain (de Klein et al. 2023, Nat Genet) cis-eQTL browser backend (from https://www.metabrain.nl/cis-eqtls.html;
+downloads are offline on the site, the browser works)
+  https://eqtlgen.molgeniscloud.org/api/v2/metabrain_cis_eqtl_v2?q=GeneSymbol=like=<q>,SNP=like=<q>&num=100
+      q = OR2L3, OR2L13, OR2AK2, OR2L2, rs6664332                                                     -> metabrain/mb_<q>.json
+
+Bryois et al. 2022 (Nat Neurosci) brain cell-type cis-eQTL summary statistics, Zenodo record 7276971
+  https://zenodo.org/api/records/5543734                                                              -> zenodo/bryois_5543734.json (resolves to 7276971)
+  https://zenodo.org/api/records/7276971/files/<CellType>.1.gz/content  (streamed; only OR2L/OR2M-cluster rows kept)
+      -> bryois/<CellType>.chr1.OR.txt ; cell types Excitatory.neurons, Inhibitory.neurons, Oligodendrocytes,
+         OPCs...COPs, Astrocytes, Microglia, Endothelial.cells, Pericytes, pb (tissue-like pseudobulk)
+  https://zenodo.org/api/records/7276971/files/snp_pos.txt.gz/content (streamed; GRCh38 chr1:247-249 Mb kept)
+      -> bryois/snp_pos.chr1_247-249Mb.txt
+  bryois_check/: two small range requests used only to read file headers.
+
+Not reachable / not checked
+  xQTL Serve (http(s)://mostafavilab.stat.ubc.ca/xqtl/): no response (curl code 000).
+  Fujita et al. 2024 (Nat Genet) ROSMAP snRNA-seq eQTL: no public query interface used (Synapse download); not checked.

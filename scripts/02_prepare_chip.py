@@ -4,13 +4,14 @@
 
 Harmonise the H3K9ac ChIP-seq peak count matrix to the snRNA-seq cohort.
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"H3K9ac ChIP-Sequencing".
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Methods §"H3K9ac ChIP-Sequencing".
 
 Original filename in the working tree: `ros1b_prepare_data_chip.py`.
 
 Pipeline:
-1. Load the Klein 2019 H3K9ac peak read-count matrix (Synapse syn3157275),
+1. Load the Klein 2019 H3K9ac peak read-count matrix (Synapse syn4896408),
    which is indexed by sequencing-run @RG IDs rather than ROSMAP individualIDs.
 2. Use the BAM-header-derived `bam_id_mapping.csv` (see
    `_document_bam_id_mapping` below for how that file was generated) to rename
@@ -34,7 +35,7 @@ import pandas as pd
 # AD Knowledge Portal under the SynIDs cited in the manuscript Methods.
 # ----------------------------------------------------------------------------
 CLINICAL_CSV = "oth/meta/ROSMAP_clinical.csv"            # syn3219045/Data/Metadata
-CHIP_READ_COUNTS = "oth/chip/ReadCounts.csv"             # Klein 2019, syn3157275 (TSV)
+CHIP_READ_COUNTS = "oth/chip/ReadCounts.csv"             # Klein 2019, syn4896408 (TSV)
 BAM_ID_MAPPING = "oth/chip/bam_id_mapping.csv"           # see _document_bam_id_mapping()
 SNRNA_PSEUDOBULK = "mit/rna/pseudobulk/Oli_rpm_normalized.csv"  # one of the six output of `01_prepare_snrna.py`; used here as the canonical projid list
 METH_CROSSED = "oth/meth/meth_crossed_with_sc.csv"       # output of `03_prepare_meth.py`; used for sanity-checking column alignment

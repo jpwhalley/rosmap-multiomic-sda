@@ -1,0 +1,15 @@
+# Python environment for scripts/round2 and scripts/seaad: pandas 2, as in the original analysis.
+# The other versions are those of uv.lock (the notebooks and scripts/figures use uv.lock, which has pandas 3).
+#   uv venv .venv-round2 --python 3.11
+#   uv pip install -p .venv-round2 -r scripts/round2/requirements.txt
+# scripts/seaad/00 and 01 also need scanpy.
+pandas==2.3.3
+numpy==2.4.4
+scipy==1.17.1
+statsmodels==0.14.6
+matplotlib==3.10.9
+seaborn==0.13.2
+pillow==12.2.0
+gseapy==1.2.1
+requests==2.33.1
+h5py==3.16.0

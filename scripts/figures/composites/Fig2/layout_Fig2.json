@@ -1,0 +1,56 @@
+{
+ "width_mm": 180.0,
+ "height_mm": 150.0,
+ "letter_size_pt": 8,
+ "cells": [
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig2/panels/Fig2a_C74_sex_samples.pdf",
+   "x_mm": 0.0,
+   "y_mm": 0.0,
+   "scale": 1.0,
+   "letter": "a"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig2/panels/Fig2b_C74_cell_type.pdf",
+   "x_mm": 48.0,
+   "y_mm": 0.0,
+   "scale": 1.0,
+   "letter": "b"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig2/panels/Fig2c_C74_SEAAD_scatter.pdf",
+   "x_mm": 114.0,
+   "y_mm": 0.0,
+   "scale": 1.0,
+   "letter": "c"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig2/panels/Fig2d_C74_RNA.pdf",
+   "x_mm": 0.0,
+   "y_mm": 48.0,
+   "scale": 1.0,
+   "letter": "d"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig2/panels/Fig2e_C74_chip.pdf",
+   "x_mm": 82.0,
+   "y_mm": 48.0,
+   "scale": 1.0,
+   "letter": "e"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig2/panels/Fig2f_C74_meth.pdf",
+   "x_mm": 0.0,
+   "y_mm": 102.0,
+   "scale": 1.0,
+   "letter": "f"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig2/panels/Fig2g_C74_cpg_H3K9ac_vs_score.pdf",
+   "x_mm": 82.0,
+   "y_mm": 102.0,
+   "scale": 1.0,
+   "letter": "g"
+  }
+ ]
+}

@@ -1,0 +1,50 @@
+{
+ "width_mm": 180.0,
+ "height_mm": 145.0,
+ "letter_size_pt": 8,
+ "cells": [
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig3/panels/Fig3a_C278_sex_samples_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 0.0,
+   "w_mm": 96.0,
+   "letter": "a"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig3/panels/Fig3b_C278_cell_type_cell.pdf",
+   "x_mm": 98.0,
+   "y_mm": 0.0,
+   "w_mm": 82.0,
+   "letter": "b"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig3/panels/Fig3c_C278_RNA_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 41.5,
+   "w_mm": 96.0,
+   "letter": "c"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig3/panels/Fig3d_C278_SEAAD_67_cell.pdf",
+   "x_mm": 98.0,
+   "y_mm": 41.5,
+   "w_mm": 82.0,
+   "letter": "d"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig3/panels/Fig3e_C278_KEGG_cell.pdf",
+   "x_mm": 0.0,
+   "y_mm": 95.0,
+   "w_mm": 96.0,
+   "letter": "e"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/Fig3/panels_fix/Fig3f_C278_FKBP5_OPC_Oli_cell_v2.pdf",
+   "x_mm": 98.0,
+   "y_mm": 95.0,
+   "w_mm": 82.0,
+   "letter": "f"
+  }
+ ],
+ "name": "v23_fig3_py_v2"
+}

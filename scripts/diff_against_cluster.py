@@ -2,7 +2,7 @@
 cluster reference archive.
 
 Run from the validation work directory:
-    cd ~/Desktop/g_ros_validation/work
+    cd /path/to/work
     python /path/to/diff_against_cluster.py
 
 Compares each generated output against the cluster's copy, classifying as:
@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 
 WORK = os.environ.get("WORK", os.getcwd())
-REF = os.environ.get("REF", "/Users/jpw/Documents/cluster/combat/ros")
+REF = os.environ.get("REF", os.environ.get("G_ROS_ROSMAP_DIR", "rosmap"))  # reference archive (layout of scripts/round2's G_ROS_ROSMAP_DIR)
 
 # Each entry: (label, relative_path, kind)
 #   kind: "csv"     — pandas read_csv, index col 0

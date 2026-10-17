@@ -5,8 +5,10 @@
 Generate Manhattan and Q-Q plots from the per-component GWAS association
 results produced by GEMMA on the cluster.
 
-Manuscript: Whalley J.P. et al., *Multi-omic Glial Programs in Brain Aging*
-(under review). Methods §"GWAS" (downstream of the SDA decomposition).
+Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
+Disease in the Aged Human Cortex* (under review at npj Aging).
+Methods §"Genetic association and eQTL analysis"; Component 21 in
+Supplementary Figure S7.
 
 Original filename in the working tree: `ros5_Manhattan_Plot_maf.py`.
 
@@ -51,7 +53,7 @@ from assocplots.qqplot import qqplot
 # original analysis they lived on different machines (cluster vs. laptop).
 # ----------------------------------------------------------------------------
 GEMMA_OUTPUT_DIR = "output/"                                # where GEMMA wrote .assoc.txt
-GWAS_INPUT_DIR = "/Users/jpw/Documents/rosmap/gwas/"        # where .abbr.txt files live
+GWAS_INPUT_DIR = os.environ.get("G_ROS_GWAS_DIR", GEMMA_OUTPUT_DIR)  # where .abbr.txt files live (default: where step 1 writes them)
 PLOT_OUTPUT_DIR = "figs/GWAS/"                              # destination for Manhattan / QQ PNGs
 
 LOG10_P_LABEL_THRESHOLD = 8.0   # only label SNPs with -log10(p) ≥ this on the Manhattan

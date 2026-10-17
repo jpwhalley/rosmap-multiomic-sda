@@ -1,0 +1,55 @@
+{
+ "width_mm": 142.9,
+ "height_mm": 150.0,
+ "cells": [
+  {
+   "file": "$G_ROS_FIGURE_OUT/S7/panels/S7a_C21_samples_final.pdf",
+   "x_mm": 0.0,
+   "y_mm": 0.0,
+   "scale": 1.0,
+   "letter": "a"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S7/panels/S7b_C21_cell_type_final.pdf",
+   "x_mm": 91.0,
+   "y_mm": 0.0,
+   "scale": 1.0,
+   "letter": "b"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S7/panels/S7c_C21_RNA_final.pdf",
+   "x_mm": 0.0,
+   "y_mm": 29.5,
+   "scale": 1.0,
+   "letter": "c"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S7/panels/S7d_C21_Manhattan_final.pdf",
+   "x_mm": 0.0,
+   "y_mm": 66.0,
+   "scale": 1.0,
+   "letter": "d"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S7/panels/S7e_C21_OR2L3_rs6664332_eQTL_final.pdf",
+   "x_mm": 0.0,
+   "y_mm": 100.0,
+   "scale": 1.0,
+   "letter": "e"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S7/panels/S7f_C21_OR2L3_Exc_vs_score_final_v2.pdf",
+   "x_mm": 60.5,
+   "y_mm": 100.0,
+   "scale": 1.0,
+   "letter": "f"
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S7/panels/S7g_C21_aggregate_Exc_vs_score_final_v2.pdf",
+   "x_mm": 102.9,
+   "y_mm": 100.0,
+   "scale": 1.0,
+   "letter": "g"
+  }
+ ]
+}

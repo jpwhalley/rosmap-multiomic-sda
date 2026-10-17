@@ -1,0 +1,12 @@
+# Component 21: GWAS and eQTL
+
+`gwas547/`: GEMMA 0.96 for the two new components (C547, C548), with C21, C74 and C351 rerun to validate against the archived runs, and the catalogue of minimum p values over the 546 archived runs. `gwas547_check/`: independent catalogue (minimum p, inflation factor) used for prioritisation. `sensitivity/`: C21 with the flagged donors set to missing. `eqtl/`: the comparison of rs6664332 with published eQTL maps.
+
+**Inputs**: `G_ROS_ROSMAP_DIR` (`oth/snps`: array genotypes, `gemma/relatedness_matrix.txt` from KING 2.0.9, archived GEMMA output; SDA scores; rna.txt), `G_ROS_AUDIT_DIR/c547`, the identity key (`identity/`), public responses saved under `G_ROS_RESULTS_DIR/revision_analyses/neuronal_c21/net/` (see `eqtl/public_queries.txt`) and the full Bryois chr1 files for excitatory neurons, astrocytes and microglia (Zenodo 7276971) under `G_ROS_RESULTS_DIR/revision_analyses/verify_neuronal_c21/net/bryois/`.
+**Outputs**: GEMMA working folders (the `.fam` files carry genotype IDs) `G_ROS_AUDIT_DIR/gwas547` and `G_ROS_RESULTS_DIR/identity_checks/gwas_c21`; summaries in `G_ROS_AUDIT_DIR/gwas547_verify` and, under `G_ROS_RESULTS_DIR`, `identity_checks/results`, `revision_analyses/neuronal_c21/{out,cache}` and `selection_review/verify_eQTL_extension/out`.
+
+**Order**: `gwas547/01_build_fam.py`, `gwas547/run_gemma.sh`, `02_compare.py`, `03_catalogue.py`, `04_new_summary.py`, `gwas547_check/04_catalogue.py`; `sensitivity/12a_build_fam_c21.py`, `run_gemma_c21.sh`, `12b_compare_c21.py`; `eqtl/n01_bryois_stream.sh` (network), `n07a_ld_rosmap.sh`, `n07_c21_public_eqtl.py`, `w01_bryois_parse.py`, `v09_figS1e.py` (after `neuronal/check/v00_frame.py`).
+
+**Manuscript** (Results: Component 21; Figure S7): GWAS of all 547 components with 228 genotyped donors and 631,829 SNPs; rs6664332 at p = 4.2e-16 for C21 with an inflation factor of 1.01 (autosomal minimum and inflation in `concentration/structure/01b_gwas_autosomal.py`); the result without the flagged donors (`sensitivity/`); eQTL with and without the RNA-mismatched donor (`v09_figS1e.py`); GTEx, MetaBrain, eQTL Catalogue and Bryois comparison, with rs6664332 the Bryois lead variant for OR2L3 in excitatory and inhibitory neurons, oligodendrocytes and OPCs (`n07_c21_public_eqtl.py`, `w01_bryois_parse.py`). The effect size, cis distance and per-cell-type eQTL p values are in `dossier/04_c21_checks.py`.
+
+`run_gemma.sh`, `run_gemma_c21.sh` and `n07a_ld_rosmap.sh` repeat commands that were run by hand; they are taken from the GEMMA and PLINK logs.

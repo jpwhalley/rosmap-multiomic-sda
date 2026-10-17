@@ -114,7 +114,7 @@ starting Jupyter.
 
 The derived data are AD Knowledge Portal dataset
 [`syn75275226`](https://www.synapse.org/Synapse:syn75275226) (under the
-ROSMAP project `syn3219045`). Use **version 2** (DOI: [V2 DOI]), which
+ROSMAP project `syn3219045`). Use **version 2** (DOI: [10.7303/syn75275226.2](https://doi.org/10.7303/syn75275226.2)), which
 holds the 547 components described here.
 **Download via the
 [AD Knowledge Portal](https://adknowledgeportal.synapse.org/Data%20Access)

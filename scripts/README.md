@@ -241,6 +241,16 @@ clustering to identify the final 547 reproducible components (IDs 1–519 and
   sample × cell-type × gene product keeps its sign) and take the
   unweighted mean as the representative loading. PIPs are the median across
   the cluster's components.
+- **Known residual (documented after v2.0.0):** the methylation, H3K9ac and
+  protein blocks are aligned by their own correlations, not by the sample
+  flip, so a member whose block flip differs from its sample flip enters the
+  average with its sample × feature product reversed. In the components of
+  the manuscript, aligning those blocks with the sample flip changes the
+  selected C74 H3K9ac loadings by 0.045% of their norm with no sign change
+  (the six members concerned are weak) and no other selected methylation or
+  H3K9ac loading; the selected protein loadings of C431 and C490 (withdrawn
+  outputs) change materially. PIP masks and sample scores do not depend on
+  these flips. The released outputs keep the original alignment.
 - **Component IDs:** IDs are assigned from `component_id_map.csv`, which
   keeps the published IDs: C520 is retired and the two components added by
   the corrected run count are C547 and C548. The map keys each component on

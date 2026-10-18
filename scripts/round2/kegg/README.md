@@ -9,4 +9,4 @@
 
 **Manuscript** (Methods: Pathway enrichment analysis): the 25,098-gene RNA background; CpG tables against the 19,872 RefGene genes except C74 (Enrichr's default), with the C74 top term unchanged on the 19,872-gene background (`01_cpg_kegg_backgrounds.py`); the terms named in the Results stay enriched at PIP thresholds 0.45 to 0.75 (`09_kegg_threshold.py`); Data S1 `GeneExpression_Pathway` for C547/C548 (`06_compute_c547_c548.py`).
 
-Notes: the original run of `09_kegg_threshold.py` also re-tested the withdrawn protein enrichment (version-22 Fig 2d); those sets are removed here, and the other rows equal the record. The order of genes in the `Genes` column follows Python's set order and can differ between runs; all values agree.
+Notes: the original run of `09_kegg_threshold.py` also re-tested the withdrawn protein enrichment (version-22 Fig 2d); those sets are removed here, the C277 claims add Calcium signaling pathway (named in version 23; five rows, follow-up to v2.0.0), and the other rows equal the record. The order of genes in the `Genes` column follows Python's set order and can differ between runs; all values agree.

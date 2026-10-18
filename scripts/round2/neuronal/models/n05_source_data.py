@@ -60,4 +60,4 @@ Pt = pd.DataFrame(prow); Pt.to_csv(f"{OUT}/n05_source_vs_phenotype.csv", index=F
 np.save(f"{CACHE}/n05_views.npy", cache, allow_pickle=True)
 pd.set_option("display.width", 200)
 print("\nsource data vs score (RNA-mismatched donors excluded):"); print(R.to_string(index=False, float_format=lambda x: f"{x:.3g}"))
-print("\nsource data vs phenotype (rank-INT OLS, M1; beta in SD of the measured value):"); print(Pt.to_string(index=False, float_format=lambda x: f"{x:.3g}"))
+print("\nsource data vs phenotype (rank-INT OLS, M1; beta in SD of the rank-INT value):"); print(Pt.to_string(index=False, float_format=lambda x: f"{x:.3g}"))

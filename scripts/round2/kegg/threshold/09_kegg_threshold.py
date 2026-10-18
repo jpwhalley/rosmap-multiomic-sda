@@ -9,7 +9,8 @@ Methods, as validated on 2026-10-08 (audit kegg547; release_v2 check_kegg_backgr
 Step 1 validates each emulation at PIP > 0.5 against the archived result tables (term set, P, adjusted P).
 Figure labels are those of version 22 (v23: S4e -> Fig 3e, S6d -> Fig 4e, S6h -> Fig 5e; S2a and 4g are not v23
 figures). The original analysis also re-tested the version-22 protein enrichment (Fig 2d and the C351 signed lists);
-that result is withdrawn with the proteomics results, and its sets are removed here (2026-10-17). The other rows are
+that result is withdrawn with the proteomics results, and its sets are removed here (2026-10-17). The C277 claims now
+include Calcium signaling pathway, named in version 23 (follow-up to v2.0.0; five added rows). The other rows are
 unchanged.
 Library: KEGG_2021_Human.gmt (audit kegg547, md5 87cf90b6...). Network is blocked (kegg_local + here).
 Outputs: $G_ROS_RESULTS_DIR/r1_numbers/out/kegg_threshold_long.csv, kegg_threshold_claims.csv, kegg_validation.json
@@ -119,7 +120,7 @@ SETS = [  # (label, layer, mode, component, sign, claimed terms (as reported in 
     ("Fig S2a C351 RNA", "RNA", "background", 351, 0, ["Cytokine-cytokine receptor interaction"]),
     ("Fig S4e C278 RNA", "RNA", "background", 278, 0, ["Ras signaling pathway", "PI3K-Akt signaling pathway", "MAPK signaling pathway"]),
     ("Fig S6d C172 RNA", "RNA", "background", 172, 0, ["MAPK signaling pathway", "Transcriptional misregulation in cancer"]),
-    ("Fig S6h C277 RNA", "RNA", "background", 277, 0, ["GABAergic synapse", "Morphine addiction"]),
+    ("Fig S6h C277 RNA", "RNA", "background", 277, 0, ["GABAergic synapse", "Morphine addiction", "Calcium signaling pathway"]),
     ("Data S1 C21 RNA", "RNA", "background", 21, 0, ["Olfactory transduction"]),
     ("Data S1 C2 RNA (blank)", "RNA", "background", 2, 0, []),
     ("Data S1 C74 RNA (blank)", "RNA", "background", 74, 0, []),

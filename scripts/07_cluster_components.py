@@ -41,6 +41,16 @@ Pipeline:
    - feature flips fX1..fX4: the same rule, for each feature block;
    - cell-type flip fB = fA x fX1, so that each member's
      sample x cell-type x gene product (A.B1.X1) keeps its sign.
+   Known residual (documented 2026-10-17, behaviour unchanged): the matrix
+   blocks' flips fX2..fX4 come from their own correlations, not from fA, so a
+   member whose matrix-block flip differs from its sample flip enters the
+   average with its sample x feature product reversed. Checked in the
+   components of the manuscript (independent audit, 2026-10-17): product-
+   preserving flips (fXj = fA) change the selected C74 H3K9ac loadings by
+   0.045% of their norm with no sign change (the six members concerned are
+   weak) and no other selected methylation or H3K9ac loading; the selected
+   protein loadings of C431 and C490 (withdrawn outputs) change materially.
+   PIP masks and sample scores do not depend on these flips.
    A NaN correlation (constant vector) counts as no flip, as in the
    original. The representative loadings are the unweighted means of the
    aligned members; PIPs are the median across members, without alignment.
@@ -398,7 +408,7 @@ def main() -> None:
         X = member_block("X", j)
         for e in retained:
             rows = [row_of[int(p)] for p in e["members"]]
-            fX = alignment_flips(X[rows])
+            fX = alignment_flips(X[rows])   # own-correlation flip for every block (see the known residual in the docstring)
             flips_X[j][e["component_id"]] = fX
             genes_rows[j].append(aligned_mean(X[rows], fX))
         del X

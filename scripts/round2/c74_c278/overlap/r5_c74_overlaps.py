@@ -1,5 +1,5 @@
 """Recheck point 5 numbers quoted in Results l.138 with an independent implementation (interval tree via sorted search,
-own stratification and convolution). Aggregates only."""
+own stratification and convolution; chromosomes from rna_chrom.py, shared with 05). Aggregates only."""
 import os, sys; sys.path.insert(1, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))  # scripts/round2
 import config as cfg  # noqa: E402  (paths and thread cap; see scripts/round2/config.py)
 import os
@@ -29,8 +29,9 @@ G = meth.RefGene.dropna().astype(str).apply(lambda v: {x.strip() for x in v.spli
 cnt = {}
 for gs in G:
     for g in gs: cnt[g] = cnt.get(g, 0) + 1
-chrom = rna.chrom.astype(str).str.replace("chr", "", regex=False)
-U = [g for g in pr.index if g in cnt and chrom.get(g, "X") not in ("X", "Y", "MT", "M")]
+from rna_chrom import rna_chrom, AUTOSOMES
+chrom = rna_chrom(cfg, rna)   # stable-ID join; NaN = unresolved
+U = [g for g in pr.index if g in cnt and chrom.get(g) in AUTOSOMES]
 U = sorted(set(U)); Us = set(U)
 A = set(pr.index[pr.values > 0.5]) & Us
 B = set().union(*[G[c] for c in pm.index[pm.values > 0.5] if c in G.index]) & Us

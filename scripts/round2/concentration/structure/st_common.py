@@ -6,8 +6,8 @@ out/ holds aggregates only (no donor IDs).
 
 CONCENTRATION (one definition, used throughout). For component k with sample scores s_1..s_n over the n = 276 donors,
 let d_i = s_i - mean(s) (centred scores).
-    top-donor share  = max_i d_i^2 / sum_i d_i^2          (1/n = perfectly even; 1 = one donor carries everything)
-    participation ratio PR = (sum_i d_i^2)^2 / sum_i d_i^4  (effective number of donors; 1 = one donor, n = all equal)
+    top-donor share  = max_i d_i^2 / sum_i d_i^2          (1/n = perfectly even; (n-1)/n = one donor carries everything)
+    participation ratio PR = (sum_i d_i^2)^2 / sum_i d_i^4  (effective number of donors; about 1 = one donor, n = all |d_i| equal)
 """
 import os, sys; sys.path.insert(1, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))  # scripts/round2
 import config as cfg  # noqa: E402  (paths and thread cap; see scripts/round2/config.py)

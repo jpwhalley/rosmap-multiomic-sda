@@ -1,8 +1,10 @@
 """Point 5(b-i) addendum: the RNA/CpG-gene overlap with chromosome added to the density strata (exact, as N1 in 02).
 Strata: chromosome; chromosome x d_sda (1 / 2-3 / 4+). Aggregates only.
-Fix (round-2 record, 10-16 rerun): universe genes with no chromosome in the sidecar get the explicit label 'nan', so in
-the chromosome x d_sda strata they are split by density like every other chromosome (expected 6.10, fold 2.29,
-p 9.67e-4, as reported). The filed log pooled them into one stratum through pandas missing-value handling (6.14, 2.28, 1.03e-3)."""
+Chromosomes (2026-10-17 follow-up to v2.0.0, after an independent audit): 114 universe genes have no chromosome in the
+sidecar, which joined by symbol. rna_chrom.py fills them through the atlas's stable Ensembl IDs, and only confirmed
+chromosomes 1-22 are kept (3 retired IDs drop out). Result: U 9,189, B 1,295, expected 6.15, fold 2.28, p 1.06e-3, reported
+as 2.3-fold, p = 0.001. Earlier records: v2.0.0 gave the missing chromosome its own 'nan' stratum (6.10, 2.29, 9.67e-4);
+the filed log pooled those genes into one stratum through pandas missing-value handling (6.14, 2.28, 1.03e-3)."""
 import os, sys; sys.path.insert(1, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))  # scripts/round2
 import config as cfg  # noqa: E402  (paths and thread cap; see scripts/round2/config.py)
 import os, sys
@@ -22,8 +24,9 @@ def pip_row(fname, k=74):
 meth = pd.read_csv(f"{SYN}/meth_features.csv", index_col=0); rna = pd.read_csv(f"{SYN}/RNA_features.csv", index_col=0)
 pm = pip_row("pip_final_meth.csv"); pr = pip_row("pip_final_RNA.csv")
 G = {c: {x.strip() for x in v.split(";") if x.strip()} for c, v in meth.RefGene.dropna().astype(str).items()}
-annot = set().union(*G.values()); rna["c"] = rna.chrom.astype(str).str.replace("chr", "", regex=False)
-auto = set(rna.index[~rna.c.isin(["X", "Y", "MT", "M"])])
+from rna_chrom import rna_chrom, AUTOSOMES
+annot = set().union(*G.values()); rna["c"] = rna_chrom(cfg, rna)   # stable-ID join; NaN = unresolved
+auto = set(rna.index[rna.c.isin(AUTOSOMES)])                      # confirmed chromosomes 1-22 only
 U = sorted(set(pr.index) & annot & auto); ui = {g: i for i, g in enumerate(U)}
 B = set().union(*[G.get(c, set()) for c in pm.index[pm > 0.5]]) & set(U); A = set(pr.index[pr > 0.5]) & set(U)
 inA = np.array([g in A for g in U]); inB = np.array([g in B for g in U]); k = int((inA & inB).sum())
@@ -31,7 +34,7 @@ d = np.zeros(len(U), int)
 for gs in G.values():
     for g in gs:
         if g in ui: d[ui[g]] += 1
-chrom = np.array([str(x) for x in rna.c.reindex(U).fillna("nan")], dtype=object)   # explicit label for missing chromosome (fix above)
+chrom = rna.c.reindex(U).to_numpy(dtype=object); assert pd.notna(chrom).all()
 print(f"U {len(U)}, A {inA.sum()}, B {inB.sum()}, k {k}")
 print("A (RNA) genes by chromosome:", pd.Series(chrom[inA]).value_counts().to_dict())
 print("overlap genes by chromosome:", pd.Series(chrom[inA & inB]).value_counts().to_dict())

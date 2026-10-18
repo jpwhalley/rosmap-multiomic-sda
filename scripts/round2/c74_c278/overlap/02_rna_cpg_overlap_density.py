@@ -4,7 +4,8 @@ Step 0 reproduces the published test exactly (round-1 revision script 04_c74_cpg
 ($G_ROS_DEPOSIT_DIR/{meth,RNA}_features.csv) + the SDA PIP rows of component 74 (pip_final_{RNA,meth}.csv,
 byte-identical to the archive). A = C74 RNA PIP > 0.5 autosomal genes in the universe (38); B = genes annotated (RefGene,
 split on ';') to C74 PIP > 0.5 CpGs, in the universe (1,296); U = RNA genes x genes annotated to any SDA CpG, autosomal
-(9,192). Statistic: k = |A n B| (14). A is held fixed; nulls resample B (or A) so that probe density is preserved.
+(9,192, as published: it includes 114 genes without a sidecar chromosome, 111 autosomal by stable ID and 3 unresolved;
+05 and r5 use the 9,189 confirmed chromosome 1-22 genes). Statistic: k = |A n B| (14). A is held fixed; nulls resample B (or A) so that probe density is preserved.
 
 Density per gene: d_sda = number of the 51,798 SDA CpGs annotated to the gene (the sampling frame of B);
                   d_450 = number of the 420,132 manifest probes annotated to the gene (array CpG count).

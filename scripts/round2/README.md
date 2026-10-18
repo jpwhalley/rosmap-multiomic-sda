@@ -57,7 +57,8 @@ Code for the analyses added in the second revision and for the 2026-10-08 correc
 - Thread counts and worker pools follow `G_ROS_THREADS`.
 - The two QC-failed projids are read from `G_ROS_QC_EXCLUDE_PATH`.
 - `c21/gwas547/01_build_fam.py` prints the number of unmatched genotype IDs instead of the IDs.
-- `c74_c278/overlap/05_rna_cpg_chromosome.py` labels genes without a chromosome explicitly (documented fix; see its docstring).
+- `c74_c278/overlap/05_rna_cpg_chromosome.py` and `r5_c74_overlaps.py` take chromosomes from the Ensembl gene IDs of the snRNA-seq object (`rna_chrom.py`; follow-up to v2.0.0, which labelled genes without a chromosome as their own stratum; see the 05 docstring). They read `mit/rna/mit_all_doublets_labelled.h5ad` (`var/gene_ids` only) under `G_ROS_ROSMAP_DIR` and `Homo_sapiens.GRCh38.100.gtf.gz` under `G_ROS_SEQUENCES_DIR`.
+- `kegg/threshold/09_kegg_threshold.py` adds Calcium signaling pathway to the C277 claims (five rows) and `neuronal/models/n05_source_data.py` labels beta as SD of the rank-INT value (follow-ups to v2.0.0).
 - Shell steps that were run by hand are reconstructed from their logs: `identity/00_plink_cache.sh`, `c21/gwas547/run_gemma.sh`, `c21/sensitivity/run_gemma_c21.sh`, `c21/eqtl/n07a_ld_rosmap.sh`.
 - Two files that were written inline are rebuilt by new scripts: `neuronal/check/v00_frame.py` (byte-identical) and `catalogue/tables/00_collect_inputs.py` (copy steps; see its docstring).
 - `c21/gwas547/04_new_summary.py` reads `03_catalogue.py`'s table instead of an unsaved variant of it (only the shared column is used).

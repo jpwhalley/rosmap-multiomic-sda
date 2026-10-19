@@ -92,7 +92,7 @@ rng = np.random.default_rng(31)
 NSIM = 20000
 for nm, draw, ls in [("Gaussian", lambda: rng.standard_normal((NSIM, 276)), "-"),
                      ("t, 5 df", lambda: rng.standard_t(5, (NSIM, 276)), ":"),
-                     ("t, 12 df (best fit)", lambda: rng.standard_t(12, (NSIM, 276)), "--")]:  # df 12: best of a df grid by truncated histogram likelihood (scripts/round2/concentration/check/v07_prioritise_verify.py)
+                     ("t, 12 df", lambda: rng.standard_t(12, (NSIM, 276)), "--")]:  # df 12: best of a df grid by truncated histogram likelihood (scripts/round2/concentration/check/v07_prioritise_verify.py)
     A = draw(); D = A - A.mean(1, keepdims=True); D2 = D ** 2; ts = D2.max(1) / D2.sum(1)
     nbody = (V.top_share < 0.075).sum() / np.mean(ts < 0.075)
     h, _ = np.histogram(np.log10(ts), bins=bins)

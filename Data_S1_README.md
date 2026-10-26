@@ -122,10 +122,10 @@ An identifier error in the proteomics input matched 29 of the 105 proteomes to t
 Please cite the manuscript and the dataset:
 
 - Whalley, J. P., Hunsberger, H. C., Bennett, D. A., Lamar, M., Peterson, D. A. & Stutzmann, G. E. Multi-omic Analysis of Sex and Alzheimer's Disease in the Aged Human Cortex. *npj Aging* (under review; citation and DOI to be added on publication).
-- AD Knowledge Portal dataset syn75275226, version 2. https://doi.org/10.7303/syn75275226.2
+- AD Knowledge Portal dataset syn75275226, version 3. https://doi.org/10.7303/syn75275226.3
 
 Cite the ROSMAP and SEA-AD source data as in the manuscript's Data Availability statement.
 
 ## Code
 
-`Data_S1.csv` is built by `scripts/round2/data_s1/build_Data_S1.py` in https://github.com/jpwhalley/rosmap-multiomic-sda (release v2.0.1). The repository also holds the code for the analyses behind each column.
+`Data_S1.csv` is built by `scripts/round2/data_s1/build_Data_S1.py` in https://github.com/jpwhalley/rosmap-multiomic-sda (release v2.0.2). The repository also holds the code for the analyses behind each column.

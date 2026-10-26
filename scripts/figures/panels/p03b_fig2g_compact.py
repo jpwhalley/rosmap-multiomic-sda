@@ -1,6 +1,6 @@
-"""Fig 2g (10-16): the S3b content (cg26921482 methylation; H3K9ac chrX and autosomal C74 peak aggregates against the
+"""Fig 2g (10-16): the S4b content (cg26921482 methylation; H3K9ac chrX and autosomal C74 peak aggregates against the
 C74 score, coloured by recorded sex) redrawn to fit the slot beside Fig 2f at the same type scale as the reused v22 panels
-(74_meth.pdf is 864 x 432 pt and is placed at about 0.26). Same data, exclusions and aggregation as p03_c74.py (S3b)."""
+(74_meth.pdf is 864 x 432 pt and is placed at about 0.26). Same data, exclusions and aggregation as p03_c74.py (S4b)."""
 import numpy as np, pandas as pd
 from vp_common import *
 

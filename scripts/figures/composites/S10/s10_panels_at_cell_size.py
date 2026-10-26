@@ -21,13 +21,13 @@ Sources and recipes (all read only):
      (snRNA-seq RNA-1/RNA-2 excluded), broken x-axis (30 x IQR outlier on the left), dominant donor ringed.
 
 Print-size settings (only presentation changes; same words, colours, order):
-  - explicit Arial sizes as the S3/S6 builds: tick labels 6 pt, axis labels and in-panel text 6.5 pt; axes lines
+  - explicit Arial sizes as the S4/S7 builds: tick labels 6 pt, axis labels and in-panel text 6.5 pt; axes lines
     0.6 pt; markers, rings and leader lines scaled with the panel;
   - c-e: adjustText (used by ros3b) is not in the locked environment, so the 16/2/2 feature labels
     are placed by a small deterministic search (nearest free position around each point, leader line when moved);
     the labelled features, their text and colours are those of ros3b;
   - f: the aggregate y label 'top-50 gene aggregate in Ast / weighted mean z' is broken into three lines
-    ('top-50 gene / aggregate in Ast / weighted mean z') so it fits the axes height (as S6).
+    ('top-50 gene / aggregate in Ast / weighted mean z') so it fits the axes height (as S7).
 Checks: every point/bar/label of c-e and the bars of b are compared with the original PDFs (pdf_marks.py); the f
 statistics are compared with the legend (n 274, rho -0.05, p 0.38). Logs aggregates only: no donor IDs, no per-donor
 values. Writes only under <G_ROS_FIGURE_OUT>/S10/."""

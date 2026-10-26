@@ -1,10 +1,10 @@
-"""Figure S7 (Component 21 source data) and the source-data panels of Figures S8-S11 (C351, C2, C87, C177).
+"""Figure S2 (Component 21 source data) and the source-data panels of Figures S8-S11 (C351, C2, C87, C177).
 Definitions as RA/source_panels/scripts/04_analysis.py + 06_panels.py (aggregate: top 50 PIP > 0.5 features by |loading|,
 column-standardised, weighted by gene loading x corrected cell-type loading; C2: the five chr22 peaks weighted by loading),
 now with the identity-flagged profiles of the affected modality excluded (snRNA-seq RNA-1/RNA-2 -> n 274; H3K9ac CHIP-1/2,
 CHIPID-1/2 -> n 189) and without titles or in-panel statistics. None of the excluded profiles is a dominant donor of these
 components (identity_checks 15_flagged_donors_summary 'dominates' column).
- S7a  OR2L3 (Exc, CPM) vs C21 score; S7b top-50 Exc aggregate vs score
+ S2a  OR2L3 (Exc, CPM) vs C21 score; S2b top-50 Exc aggregate vs score
  S8f  IGKC (CPM, symmetric-log axis) in each cell type vs C351 score; top-50 microglial aggregate
  S9f  H3K9ac (log2(CPM + 1)) at the five chr22 peaks and their weighted mean z vs C2 score
  S10f VTCN1 (Ast, CPM) and top-50 astrocyte aggregate vs C87 score
@@ -47,15 +47,15 @@ def two_panel(k, feat_series, feat_label, agg, agg_label, folder, name, ylog=Non
 
 CT = {21: "Exc", 351: "Mic", 87: "Ast", 177: "Mic"}
 
-# ---------------------------------------------------------------- S7 (C21): two separate panels a and b
+# ---------------------------------------------------------------- S2 (C21): two separate panels a and b
 a21 = score(21)
 y = gene(21, "OR2L3", "Exc"); agg, n = top50_agg(21, "Exc")
-for letter, yy, lab, nm in (("a", y, "OR2L3 in Exc (CPM)", "S7a_C21_OR2L3_Exc_vs_score"),
-                            ("b", agg, "top-50 gene aggregate in Exc\nweighted mean z", "S7b_C21_aggregate_Exc_vs_score")):
+for letter, yy, lab, nm in (("a", y, "OR2L3 in Exc (CPM)", "S2a_C21_OR2L3_Exc_vs_score"),
+                            ("b", agg, "top-50 gene aggregate in Exc\nweighted mean z", "S2b_C21_aggregate_Exc_vs_score")):
     fig = plt.figure(figsize=(8, 6)); gs = fig.add_gridspec(1, 1)
     broken_x_scatter(fig, gs[0, 0], a21, [(yy, CTCOL["Exc"], 30, None)], "Component 21 loadings/score", lab)
-    save(fig, "FigS7", nm, LOG); log_view(nm, yy, a21)
-LOG.append(f"S7 C21 score donors beyond 30 x IQR: {int(outliers_30iqr(a21).sum())}; aggregate genes {n}")
+    save(fig, "FigS2", nm, LOG); log_view(nm, yy, a21)
+LOG.append(f"S2 C21 score donors beyond 30 x IQR: {int(outliers_30iqr(a21).sum())}; aggregate genes {n}")
 
 # ---------------------------------------------------------------- S8f (C351)
 a351 = score(351)

@@ -323,7 +323,7 @@ version reports no motif results.
 #### `11_eqtls.py` *(was `ros8_eQTLs.py`)*
 
 Cell-type-specific eQTL analysis: tests SNP genotype against PIP > 0.5
-gene loadings per cell type. Underlies Supplementary Figure S7e
+gene loadings per cell type. Underlies Supplementary Figure S2e
 (Component 21 olfactory eQTL).
 
 - **External dependencies:** outputs of `08`; the abbreviated GWAS tables
@@ -342,7 +342,7 @@ Cross-cohort reproducibility validation against the SEA-AD DLPFC dataset.
 Gives the `SEA-AD_comp` and `SEA-AD_corr` columns of Data S1. The Spearman
 correlation, the permutation null and the replication criterion of this
 version are computed in `round2/concentration/structure/02_seaad.py`, and the
-SEA-AD panels (Figs 2c, 3d, S1d, S3d) are drawn by `figures/`.
+SEA-AD panels (Figs 2c, 3d, S1d, S4d) are drawn by `figures/`.
 
 - **External dependencies:** SEA-AD processed snRNA-seq (the version used was
   downloaded from [CZ CELLxGENE Discover](https://cellxgene.cziscience.com/collections/1ca90a2d-2943-483d-b678-b809bf464c30) on 5 October 2023; see `seaad/README.md`).

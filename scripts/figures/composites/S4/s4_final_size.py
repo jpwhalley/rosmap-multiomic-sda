@@ -1,4 +1,4 @@
-"""Figure S3 (Component 74 source data), panels redrawn at their final printed size for the composite.
+"""Figure S4 (Component 74 source data), panels redrawn at their final printed size for the composite.
 
 Same data, exclusions, statistics, colours and label text as panels/p03_c74.py (the computation below is
 copied from it verbatim, same bootstrap seeds); only the drawing changes: each figure is exactly its cell size in the
@@ -10,7 +10,7 @@ one y label spanning both (p03 had one y label for both), MaxNLocator ticks, the
 opaque white box (p03 lower left, which would sit on the chrY points at this aspect) and the autosomal legend just above
 its plot's top-right corner (p03 inside upper right, which would sit beside the top-left point at this size).
 
-Writes only under <G_ROS_FIGURE_OUT>/S3/ (panels/, s3_final_size.log, s3_view_stats.csv). Never prints donor IDs or per-donor
+Writes only under <G_ROS_FIGURE_OUT>/S4/ (panels/, s4_final_size.log, s4_view_stats.csv). Never prints donor IDs or per-donor
 values; the log holds aggregates only."""
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "panels"))   # scripts/figures/panels
@@ -19,7 +19,7 @@ import numpy as np, pandas as pd
 from scipy import stats as ss
 from matplotlib.lines import Line2D
 
-HERE = f"{FIGOUT}/S3"
+HERE = f"{FIGOUT}/S4"
 PAN = f"{HERE}/panels"; os.makedirs(PAN, exist_ok=True)
 MM = 1 / 25.4
 TICK, LAB, LEG = 6.0, 6.5, 6.0
@@ -95,11 +95,11 @@ for ax, ct in zip(axs.ravel(), CT_ORDER):
     y = np.log2(np.asarray(RNA[CTS_BLOCK.index(ct), :, j], float) + 1)
     d = stat(f"XIST, {ct}", y, exR, 11)
     sex_scatter(ax, y, exR, f"XIST in {ct}\nlog2(CPM + 1)")
-    LOG.append(f"S3a XIST {ct}: n {d['n']} ({d['n_male']} male, {d['n_female']} female); rho {d['rho']:+.3f}")
+    LOG.append(f"S4a XIST {ct}: n {d['n']} ({d['n_male']} male, {d['n_female']} female); rho {d['rho']:+.3f}")
 for ax in axs[0]: ax.tick_params(labelbottom=False)
 for ax in axs[1]: ax.set_xlabel(XL)
 axs[0, 0].legend(handles=sexhandles(int((~exR & ~fem).sum()), int((~exR & fem).sum())), loc="center", **LEGKW)
-savep(fig, "S3a_final")
+savep(fig, "S4a_final")
 
 # ---------------------------------------------------------------- b  CpG and H3K9ac aggregates   (cell 142.9 x 39 mm)
 MI = mod_input("meth"); LM = comp_loadings(K, "meth"); cpgs = list(LM.index)
@@ -117,18 +117,18 @@ fig = fig_mm(WB, HB)
 BW, BH = 35.6, 28.6
 axs = [ax_mm(fig, l, 3.0, BW, BH) for l in (10.6, 58.2, 105.8)]
 d = stat(f"cg26921482 (top autosomal CpG)", ym, nomask, 21); sex_scatter(axs[0], ym, nomask, "cg26921482\nmethylation (β)")
-LOG.append(f"S3b cg26921482: n {d['n']}; rho {d['rho']:+.3f}")
+LOG.append(f"S4b cg26921482: n {d['n']}; rho {d['rho']:+.3f}")
 d = stat(f"H3K9ac, {nX} chrX peaks (aggregate)", aggX, exC, 31); sex_scatter(axs[1], aggX, exC, f"H3K9ac, {nX} chrX peaks\nweighted mean z")
-LOG.append(f"S3b H3K9ac chrX aggregate ({nX} peaks): n {d['n']} ({d['n_male']} male, {d['n_female']} female); rho {d['rho']:+.3f}")
+LOG.append(f"S4b H3K9ac chrX aggregate ({nX} peaks): n {d['n']} ({d['n_male']} male, {d['n_female']} female); rho {d['rho']:+.3f}")
 d = stat(f"H3K9ac, {nA} autosomal peaks (aggregate)", aggA, exC, 41); sex_scatter(axs[2], aggA, exC, f"H3K9ac, {nA} autosomal peaks\nweighted mean z")
-LOG.append(f"S3b H3K9ac autosomal aggregate ({nA} peaks): n {d['n']}; rho {d['rho']:+.3f}")
+LOG.append(f"S4b H3K9ac autosomal aggregate ({nA} peaks): n {d['n']}; rho {d['rho']:+.3f}")
 for ax in axs: ax.set_xlabel(XL)
 axs[0].legend(handles=sexhandles(), loc="lower left", **LEGKW)
-savep(fig, "S3b_final")
+savep(fig, "S4b_final")
 d = stat(f"H3K9ac, {nY} chrY peaks (aggregate)", aggY, exC, 51)
-LOG.append(f"S3c H3K9ac chrY aggregate ({nY} peaks): n {d['n']}; rho {d['rho']:+.3f}")
+LOG.append(f"S4c H3K9ac chrY aggregate ({nY} peaks): n {d['n']}; rho {d['rho']:+.3f}")
 d = stat(f"methylation, {nM:,} CpG sites (aggregate)", aggM, nomask, 61)
-LOG.append(f"S3c methylation aggregate ({nM} CpGs): n {d['n']}; rho {d['rho']:+.3f}; within male {d['rho_m']:+.2f}, female {d['rho_f']:+.2f}")
+LOG.append(f"S4c methylation aggregate ({nM} CpGs): n {d['n']}; rho {d['rho']:+.3f}; within male {d['rho_m']:+.2f}, female {d['rho_f']:+.2f}")
 
 # ---------------------------------------------------------------- c  within-sex forest   (cell 106 x 68 mm)
 gtf = pd.read_csv(f"{RA}/verify_c74_c278/cache/gene_chrom_gtf100.csv").drop_duplicates("gene_name").set_index("gene_name").chrom.astype(str)
@@ -144,7 +144,7 @@ for i, ct in enumerate(CT_ORDER):
 for i, ct in enumerate(CT_ORDER):
     Rc = np.log2(np.asarray(RNA[CTS_BLOCK.index(ct)], float) + 1)
     ag, _ = zagg(Rc[:, selRa], LR.X.values[selRa] * Bc[ct]); stat(f"autosomal RNA genes, {ct} (aggregate)", ag, exR, 80 + i)
-LOG.append(f"S3c top autosomal RNA gene: {top_auto}; autosomal PIP genes in the RNA aggregate: {int(selRa.sum())}")
+LOG.append(f"S4c top autosomal RNA gene: {top_auto}; autosomal PIP genes in the RNA aggregate: {int(selRa.sum())}")
 T = pd.DataFrame(rows).set_index("view")
 order = ([f"XIST, {c}" for c in CT_ORDER] + [f"{top_auto}, {c}" for c in CT_ORDER] + ["cg26921482 (top autosomal CpG)",
          f"methylation, {nM:,} CpG sites (aggregate)", f"H3K9ac, {nX} chrX peaks (aggregate)", f"H3K9ac, {nA} autosomal peaks (aggregate)",
@@ -166,10 +166,10 @@ ax.set_xlabel("Spearman ρ with the Component 74 score")
 ax.set_xlim(-1, 1)
 ax.legend(fontsize=LEG, loc="lower right", bbox_to_anchor=(1.0, 1.0), ncol=3, frameon=False, handletextpad=0.3,
           columnspacing=1.0, borderaxespad=0.15, borderpad=0.1, handlelength=1.4)
-sns.despine(ax=ax); savep(fig, "S3c_final")
+sns.despine(ax=ax); savep(fig, "S4c_final")
 for v in S.index:
     r = S.loc[v]
-    LOG.append(f"S3c {v}: n {int(r.n)}; all {r.rho:+.2f} [{r.lo:+.2f}, {r.hi:+.2f}]; male {r.rho_m:+.2f}; female {r.rho_f:+.2f}")
+    LOG.append(f"S4c {v}: n {int(r.n)}; all {r.rho:+.2f} [{r.lo:+.2f}, {r.hi:+.2f}]; male {r.rho_m:+.2f}; female {r.rho_f:+.2f}")
 
 # ---------------------------------------------------------------- d  SEA-AD by chromosome class   (cell 36.4 x 68 mm)
 SEA = SEAAD
@@ -194,7 +194,7 @@ cha = np.array([GC.chrom.get(n2e[g][0].split(".")[0], "NA") for g in allc]).asty
 nz = au & (pa < 0.5) & (xa != 0) & (ya != 0)
 base = float((np.sign(xa[nz]) * np.sign(ya[nz]) == orient).mean())
 kA = conc(isA); bt = ss.binomtest(kA, int(isA.sum()), base, alternative="greater")
-LOG.append(f"S3d genes measured in SEA-AD {len(common)}; overall Pearson {r_all:+.3f}; sex-chromosome {int(sexc.sum())} (X {int(isX.sum())}, "
+LOG.append(f"S4d genes measured in SEA-AD {len(common)}; overall Pearson {r_all:+.3f}; sex-chromosome {int(sexc.sum())} (X {int(isX.sum())}, "
            f"Y {int(isY.sum())}): Pearson {ss.pearsonr(x[sexc], y[sexc])[0]:+.3f}, Spearman {ss.spearmanr(x[sexc], y[sexc])[0]:+.3f}, "
            f"concordant {conc(sexc)}/{int(sexc.sum())}; autosomal {int(isA.sum())}: Pearson {ss.pearsonr(x[isA], y[isA])[0]:+.3f}, "
            f"Spearman {ss.spearmanr(x[isA], y[isA])[0]:+.3f}, concordant {kA}/{int(isA.sum())}; base rate {base:.3f} (n {int(nz.sum())}); "
@@ -220,8 +220,8 @@ for ax in axs:
     ax.xaxis.set_major_locator(mpl.ticker.MaxNLocator(4)); ax.yaxis.set_major_locator(mpl.ticker.MaxNLocator(5))
 fig.text(0.6 * MM / (WD * MM), 1 - (4.0 + 36.5 + 22.0) / 2 / HD, "SEA-AD component 106 loadings", rotation=90,
          va="center", ha="left", fontsize=LAB, color=mpl.rcParams["axes.labelcolor"])
-savep(fig, "S3d_final")
+savep(fig, "S4d_final")
 
-T.to_csv(f"{HERE}/s3_view_stats.csv", float_format="%.4g")
-open(f"{HERE}/s3_final_size.log", "w").write("\n".join(LOG) + "\n")
+T.to_csv(f"{HERE}/s4_view_stats.csv", float_format="%.4g")
+open(f"{HERE}/s4_final_size.log", "w").write("\n".join(LOG) + "\n")
 print("\n".join(LOG))

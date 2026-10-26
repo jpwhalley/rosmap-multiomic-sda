@@ -31,7 +31,7 @@ compose() {   # compose <figure folder> <layout file> <name>
 }
 
 if [[ "$STAGE" == panels || "$STAGE" == all ]]; then
-  # stand-alone panels (statistics in the logs); p04 and p06 logs are read by the S4 and S9 builders
+  # stand-alone panels (statistics in the logs); p04 and p06 logs are read by the S5 and S9 builders
   for p in p01_structure p02_covariates p03_c74 p03b_fig2g_compact p04_c278 p05_neuronal p06_c21_single; do
     run "panels/$p.py"
   done
@@ -44,13 +44,13 @@ fi
 
 if [[ "$STAGE" == composites || "$STAGE" == all ]]; then
   run composites/S1/s1_panels_final_size_v2.py
-  run composites/S2/s2_panels_at_cell_size.py
-  run composites/S3/s3_final_size.py
-  run composites/S4/s4_panels.py
-  run composites/S5/s5_panels_at_cell_size.py
+  run composites/S2/s2_panels_final_size.py
+  run composites/S2/s2fg_fix.py
+  run composites/S3/s3_panels_at_cell_size.py
+  run composites/S4/s4_final_size.py
+  run composites/S5/s5_panels.py
   run composites/S6/s6_panels_at_cell_size.py
-  run composites/S7/s7_panels_final_size.py
-  run composites/S7/s7fg_fix.py
+  run composites/S7/s7_panels_at_cell_size.py
   run composites/S8/s8_panels.py
   run composites/S8/s8_fix_cdef.py
   run composites/S9/s9_panels_fix_v2.py
@@ -67,12 +67,12 @@ if [[ "$STAGE" == composites || "$STAGE" == all ]]; then
   run composites/Fig4/fig4_panels.py
   run composites/Fig5/f5_panels.py
   compose S1 layout_S1_v2.json FigS1
-  compose S2 layout_S2.json FigS2
+  compose S2 layout_S2_v2.json FigS2
   compose S3 layout_S3.json FigS3
   compose S4 layout_S4.json FigS4
   compose S5 layout_S5.json FigS5
   compose S6 layout_S6.json FigS6
-  compose S7 layout_S7_v2.json FigS7
+  compose S7 layout_S7.json FigS7
   compose S8 layout_S8_v2.json FigS8
   compose S9 layout_S9.json FigS9
   compose S10 layout_S10_v2.json FigS10

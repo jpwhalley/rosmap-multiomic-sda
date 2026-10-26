@@ -1,41 +1,52 @@
 {
  "width_mm": 142.9,
- "height_mm": 150.0,
+ "height_mm": 160.0,
  "cells": [
   {
-   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5a_C172_odds_ratios_alone_vs_joint_cell.pdf",
-   "x_mm": 0,
-   "y_mm": 0,
-   "w_mm": 70.45,
+   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5a_leading_genes_OPC_Oli_vs_score.pdf",
+   "x_mm": 0.0,
+   "y_mm": 0.0,
+   "w_mm": 82.4,
    "letter": "a"
   },
   {
-   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5b_C277_odds_ratios_alone_vs_joint_cell.pdf",
-   "x_mm": 72.45,
-   "y_mm": 0,
-   "w_mm": 70.45,
+   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5b_aggregates_with_and_without_leading_genes.pdf",
+   "x_mm": 83.4,
+   "y_mm": 0.0,
+   "w_mm": 59.5,
    "letter": "b"
   },
   {
-   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5c_C277_score_vs_neuronal_fraction_cell.pdf",
-   "x_mm": 0,
-   "y_mm": 45.0,
-   "w_mm": 70.45,
+   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5c_female_minus_male_leading_genes.pdf",
+   "x_mm": 0.0,
+   "y_mm": 59.0,
+   "w_mm": 38.6,
    "letter": "c"
   },
   {
-   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5d_C277_score_vs_L2-3_CBLN2_share_cell.pdf",
-   "x_mm": 72.45,
-   "y_mm": 45.0,
-   "w_mm": 70.45,
+   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5d1_SOX6_BCAS1_vs_score.pdf",
+   "x_mm": 39.6,
+   "y_mm": 59.0,
+   "w_mm": 58.0,
    "letter": "d"
   },
   {
-   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5e_C277_dementia_effect_total_vs_direct_cell.pdf",
-   "x_mm": 0,
-   "y_mm": 102.0,
-   "w_mm": 142.9,
-   "letter": "e"
+   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5d2_lineage_markers_rho.pdf",
+   "x_mm": 97.6,
+   "y_mm": 59.0,
+   "w_mm": 45.3
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5d3_OPC_share_vs_score.pdf",
+   "x_mm": 39.6,
+   "y_mm": 114.5,
+   "w_mm": 58.0
+  },
+  {
+   "file": "$G_ROS_FIGURE_OUT/S5/panels/S5d4_marker_modules_rho.pdf",
+   "x_mm": 97.6,
+   "y_mm": 135.5,
+   "w_mm": 45.3
   }
  ]
 }

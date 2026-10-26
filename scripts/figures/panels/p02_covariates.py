@@ -1,4 +1,4 @@
-"""Figure S2 (covariate-adjusted associations and effect estimates; component-level aggregates only).
+"""Figure S3 (covariate-adjusted associations and effect estimates; component-level aggregates only).
  a-c  published (unadjusted MW / KW) BH FDR vs covariate-adjusted (proportional-odds LRT, M1) BH FDR over 547 components,
       for sex, CERAD (AD vs non-AD) and final clinical diagnosis (NCI / MCI / AD dementia); published calls in blue
       Source: RA/covariates/po_tests_547.csv (CV 03_po_adjusted.py; verified VCV 06: 547 x 3 p agree to 1e-8)
@@ -35,10 +35,10 @@ for letter, ph in zip("abc", ["Sex", "ceradsc", "cogdx"]):
     ax.set_xlabel("published FDR (−log$_{10}$)"); ax.set_ylabel("adjusted FDR (−log$_{10}$)")
     if letter == "a":
         ax.legend(frameon=False, fontsize=13, loc="lower right", markerscale=1.2)
-    sns.despine(ax=ax); fig.tight_layout(); save(fig, "FigS2", f"S2{letter}_published_vs_adjusted_FDR_{PHN[ph]}", LOG)
+    sns.despine(ax=ax); fig.tight_layout(); save(fig, "FigS3", f"S3{letter}_published_vs_adjusted_FDR_{PHN[ph]}", LOG)
     kept = int((pub & (yq < 0.05)).sum())
     same_dir = "n/a"
-    LOG.append(f"S2{letter} {PHN[ph]}: published calls {int(pub.sum())}; keep adjusted FDR < 0.05: {kept}; "
+    LOG.append(f"S3{letter} {PHN[ph]}: published calls {int(pub.sum())}; keep adjusted FDR < 0.05: {kept}; "
                + ", ".join(f"C{k} q {xq[k]:.3g} -> {yq[k]:.3g}" for k in CENT[ph]))
 
 # ---------------------------------------------------------------- d  RINT effects, five central associations
@@ -56,13 +56,13 @@ for i, (k, term, lab) in enumerate(ROWS):
         r = E[k][(E[k].model == m) & (E[k].term == term)].iloc[0]
         ax.errorbar(r.r38_b, yb + off[m], xerr=[[r.r38_b - r.r38_lo], [r.r38_hi - r.r38_b]], fmt=kw["marker"], ms=8,
                     mfc=kw["mfc"], mec=kw["mec"], color=kw["color"], lw=1.6, capsize=0, label=mlab if i == 0 else None)
-        LOG.append(f"S2d C{k} {term} {m} (n {int(r.n)}): {r.r38_b:+.2f} [{r.r38_lo:+.2f}, {r.r38_hi:+.2f}] SD")
+        LOG.append(f"S3d C{k} {term} {m} (n {int(r.n)}): {r.r38_b:+.2f} [{r.r38_lo:+.2f}, {r.r38_hi:+.2f}] SD")
 ax.axvline(0, color="k", lw=0.8, ls="--")
 ax.set_yticks(range(len(ROWS))); ax.set_yticklabels([lab for _, _, lab in ROWS][::-1])
 ax.set_ylim(-0.6, len(ROWS) - 0.4)
 ax.set_xlabel("difference in rank-inverse-normal score (SD)")
 ax.legend(frameon=False, fontsize=13, loc="center left", bbox_to_anchor=(1.02, 0.5))
-sns.despine(ax=ax); fig.tight_layout(); save(fig, "FigS2", "S2d_rint_effects_central_five", LOG)
+sns.despine(ax=ax); fig.tight_layout(); save(fig, "FigS3", "S3d_rint_effects_central_five", LOG)
 
 # optional variant: proportional-odds odds ratios next to the RINT effects (C74 omitted from the OR side)
 fig, axs = plt.subplots(1, 2, figsize=(15, 6), sharey=True, gridspec_kw=dict(wspace=0.08))
@@ -75,7 +75,7 @@ for i, (k, term, lab) in enumerate(ROWS):
         if k != 74:
             axs[0].errorbar(r.OR, yb + off[m], xerr=[[r.OR - lo], [hi - r.OR]], fmt=kw["marker"], ms=8, mfc=kw["mfc"], mec=kw["mec"],
                             color=kw["color"], lw=1.6, capsize=0, label=mlab if i == 1 else None)
-            LOG.append(f"S2d_alt C{k} {m}: OR {r.OR:.2f} [{lo:.2f}, {hi:.2f}] ({'profile' if pd.notna(r.OR_prof_lo) else 'Wald'})")
+            LOG.append(f"S3d_alt C{k} {m}: OR {r.OR:.2f} [{lo:.2f}, {hi:.2f}] ({'profile' if pd.notna(r.OR_prof_lo) else 'Wald'})")
         axs[1].errorbar(r.r38_b, yb + off[m], xerr=[[r.r38_b - r.r38_lo], [r.r38_hi - r.r38_b]], fmt=kw["marker"], ms=8,
                         mfc=kw["mfc"], mec=kw["mec"], color=kw["color"], lw=1.6, capsize=0)
 axs[0].set_xscale("log"); axs[0].axvline(1, color="k", lw=0.8, ls="--")
@@ -86,7 +86,7 @@ axs[1].axvline(0, color="k", lw=0.8, ls="--")
 axs[0].set_yticks(range(len(ROWS))); axs[0].set_yticklabels([lab for _, _, lab in ROWS][::-1]); axs[0].set_ylim(-0.6, len(ROWS) - 0.4)
 axs[1].legend(*axs[0].get_legend_handles_labels(), frameon=False, fontsize=13, loc="center left", bbox_to_anchor=(1.02, 0.5))
 for ax in axs: sns.despine(ax=ax)
-fig.tight_layout(); save(fig, "FigS2", "S2d_alt_OR_and_rint_effects_central_five", LOG)
+fig.tight_layout(); save(fig, "FigS3", "S3d_alt_OR_and_rint_effects_central_five", LOG)
 
 # ---------------------------------------------------------------- e  C278 across models
 Fo = pd.read_csv(f"{RA}/c74_c278/out/30_c278_effects_forest.csv").set_index("model")
@@ -101,7 +101,7 @@ for i, m in enumerate(order):
     r = Fo.loc[m]; yb = len(order) - 1 - i
     axs[0].errorbar(r.OR, yb, xerr=[[r.OR - r.OR_lo], [r.OR_hi - r.OR]], fmt="o", color=FEMALE, mfc=FEMALE, ms=9, lw=1.8, capsize=0)
     axs[1].errorbar(r.SD, yb, xerr=[[r.SD - r.SD_lo], [r.SD_hi - r.SD]], fmt="o", color=FEMALE, mfc=FEMALE, ms=9, lw=1.8, capsize=0)
-    LOG.append(f"S2e {m} (n {int(r.n)}): OR {r.OR:.2f} [{r.OR_lo:.2f}, {r.OR_hi:.2f}]; RINT {r.SD:+.2f} [{r.SD_lo:+.2f}, {r.SD_hi:+.2f}]; "
+    LOG.append(f"S3e {m} (n {int(r.n)}): OR {r.OR:.2f} [{r.OR_lo:.2f}, {r.OR_hi:.2f}]; RINT {r.SD:+.2f} [{r.SD_lo:+.2f}, {r.SD_hi:+.2f}]; "
                f"q_PO {r.q_PO_547}; q_RINT {r.q_rint_547}")
 axs[0].set_xscale("log"); axs[0].axvline(1, color="k", lw=0.8, ls="--")
 axs[0].set_xticks([1, 1.5, 2, 3, 4]); axs[0].set_xticklabels(["1", "1.5", "2", "3", "4"]); axs[0].xaxis.set_minor_locator(mpl.ticker.NullLocator())
@@ -110,7 +110,7 @@ axs[1].axvline(0, color="k", lw=0.8, ls="--"); axs[1].set_xlim(-0.1, 0.9)
 axs[0].set_yticks(range(len(order))); axs[0].set_yticklabels([LAB[m] + (" (n = 275)" if m.startswith("drop1") else "") for m in order][::-1])
 axs[0].set_xlabel("odds ratio, female vs male"); axs[1].set_xlabel("female − male, rank-inverse-normal score (SD)")
 for ax in axs: sns.despine(ax=ax)
-fig.tight_layout(); save(fig, "FigS2", "S2e_C278_effect_across_models", LOG)
-LOG.append(f"S2e OR range {Fo.OR.min():.2f}-{Fo.OR.max():.2f}; RINT q range {Fo.q_rint_547.min():.3f}-{Fo.q_rint_547.max():.3f}; PO q range {Fo.q_PO_547.min():.4f}-{Fo.q_PO_547.max():.4f}")
+fig.tight_layout(); save(fig, "FigS3", "S3e_C278_effect_across_models", LOG)
+LOG.append(f"S3e OR range {Fo.OR.min():.2f}-{Fo.OR.max():.2f}; RINT q range {Fo.q_rint_547.min():.3f}-{Fo.q_rint_547.max():.3f}; PO q range {Fo.q_PO_547.min():.4f}-{Fo.q_PO_547.max():.4f}")
 open(f"{OUT}/p02_covariates.log", "w").write("\n".join(LOG) + "\n")
 print("\n".join(LOG))

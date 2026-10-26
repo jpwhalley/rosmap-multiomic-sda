@@ -13,7 +13,7 @@ Inputs
   G_ROS_SDA_DIR         default $G_ROS_ROSMAP_DIR/sda; keep it there, as several scripts read sda/ through
                         G_ROS_ROSMAP_DIR
   G_ROS_SEAAD_DIR       SEA-AD DLPFC folder: gene_info.csv and sda/ (default <repo>/seaad)
-  G_ROS_DEPOSIT_DIR     Synapse deposit, version 2 (default <repo>/synapse)
+  G_ROS_DEPOSIT_DIR     Synapse deposit, version 3 (default <repo>/synapse)
   G_ROS_REFERENCES_DIR  reference tables (default <repo>/references)
   G_ROS_ARCHIVE_DIR     version-1 Enrichr tables: enrichr/, cpg_enrichr/ (default <repo>/version1_results)
   G_ROS_SEQUENCES_DIR   GRCh37.p13.genome.fa(.fai), Homo_sapiens.GRCh38.100.gtf.gz, Homo_sapiens.GRCh38.cdna.all.fa.gz,

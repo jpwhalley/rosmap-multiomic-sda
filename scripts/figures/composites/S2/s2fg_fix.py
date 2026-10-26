@@ -1,26 +1,26 @@
-"""Figure S7 panels f and g, final version.
+"""Figure S2 panels f and g, final version.
 
-Why: in the first S7 composite the x-axis titles of f and g ('Component 21 loadings/score') sit on the bottom page
+Why: in the first S2 composite the x-axis titles of f and g ('Component 21 loadings/score') sit on the bottom page
 edge; the descender of the 'g' in 'loadings' is cut by about 0.1 mm (pdftotext word box bottom 150.10 mm on a
 150.00 mm page; visible at 2400 dpi).
 
-Fix: identical to the f/g block of S7/scripts/s7_panels_final_size.py (same data, functions, colours, labels, ticks,
+Fix: identical to the f/g block of S2/scripts/s2_panels_final_size.py (same data, functions, colours, labels, ticks,
 ring), except that the axes bottom is raised from 6.6 mm to 7.0 mm in the 40 x 50 mm cell (axes top unchanged), which
-leaves about 0.3 mm below the descenders. Writes only to <G_ROS_FIGURE_OUT>/S7/panels/. Logs aggregates only.
+leaves about 0.3 mm below the descenders. Writes only to <G_ROS_FIGURE_OUT>/S2/panels/. Logs aggregates only.
 Run: PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 VECLIB_MAXIMUM_THREADS=2 \\
-     python s7fg_fix.py
+     python s2fg_fix.py
 """
 import os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "panels"))   # scripts/figures/panels
 from vp_common import *          # noqa: F401,F403
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PAN = f"{FIGOUT}/S7/panels"
+PAN = f"{FIGOUT}/S2/panels"
 os.makedirs(PAN, exist_ok=True)
 MM = 1 / 25.4
 LOG = []
 
-# style: verbatim from s7_panels_final_size.py
+# style: verbatim from s2_panels_final_size.py
 mpl.rcParams["pdf.fonttype"] = 42
 sns.set(style="white", context="paper")
 mpl.rcParams.update({
@@ -61,8 +61,8 @@ a21 = score(21)
 assert not outliers_30iqr(a21).any()
 yf = gene(21, "OR2L3", "Exc"); yg, n_agg = top50_agg(21, "Exc")
 ext = most_extreme(a21)
-for nm, yy_, lab in (("S7f_C21_OR2L3_Exc_vs_score_final_v2", yf, "OR2L3 in Exc (CPM)"),
-                     ("S7g_C21_aggregate_Exc_vs_score_final_v2", yg, "top-50 gene aggregate in Exc\nweighted mean z")):
+for nm, yy_, lab in (("S2f_C21_OR2L3_Exc_vs_score_final_v2", yf, "OR2L3 in Exc (CPM)"),
+                     ("S2g_C21_aggregate_Exc_vs_score_final_v2", yg, "top-50 gene aggregate in Exc\nweighted mean z")):
     fig = plt.figure(figsize=(W_CELL * MM, H_CELL * MM))
     fL = 10.4
     ax = fig.add_axes([fL / W_CELL, FB / H_CELL, (W_CELL - fL - 3.6) / W_CELL, (H_CELL - TOP - FB) / H_CELL])
@@ -81,5 +81,5 @@ for nm, yy_, lab in (("S7f_C21_OR2L3_Exc_vs_score_final_v2", yf, "OR2L3 in Exc (
     LOG.append(f"{nm}: n {n_}; Spearman {r_:+.3f}; without the most extreme donor "
                f"{ss.spearmanr(yy_[m_], a21[m_])[0]:+.3f}" + (f"; aggregate genes {n_agg}" if "aggregate" in nm else ""))
 
-open(f"{PAN}/s7fg_fix.log", "w").write("\n".join(LOG) + "\n")
+open(f"{PAN}/s2fg_fix.log", "w").write("\n".join(LOG) + "\n")
 print("\n".join(LOG))

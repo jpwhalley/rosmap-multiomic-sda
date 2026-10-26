@@ -44,7 +44,7 @@ bash scripts/figures/build_all.sh panels     # or composites
 
 | Folder | What it draws |
 | --- | --- |
-| `panels/` | `vp_common.py` (shared loaders and style). `p01` S1, `p02` S2, `p03` S3, `p03b` Fig 2g, `p04` Fig 3f and S4, `p05` Fig 4d, 5d, S5 and S6, `p06` S7f-g, S8f, S9f, S10f, S11e. Each writes a log with the statistics quoted in the legends. `p99_check.py <folder>` checks fonts, clipping, withdrawn terms and donor-ID tokens in panel PDFs. |
+| `panels/` | `vp_common.py` (shared loaders and style). `p01` S1, `p02` S3, `p03` S4, `p03b` Fig 2g, `p04` Fig 3f and S5, `p05` Fig 4d, 5d, S6 and S7, `p06` S2f-g, S8f, S9f, S10f, S11e. Each writes a log with the statistics quoted in the legends. `p99_check.py <folder>` checks fonts, clipping, withdrawn terms and donor-ID tokens in panel PDFs. |
 | `panels/cell_type_bars/` | Corrected cell-type loading bars (`make_relink_panels.py OUTDIR`). |
 | `panels/round1/` | Figure 1b and Figure 2c (Illustrator version) as drawn for the first revision. They list Helvetica first; matplotlib falls back to Arial or DejaVu Sans where it is missing. |
 | `qlabel_panels/` | Port of the version-1 clinical box panels (Fig 2a, 3a, 4a, 5a), used as a module by the Fig 2 to 5 builders; `python qlabel_panels.py --qfamily corrected --jitter recovered_jitter.json --outdir DIR` draws the four corrected panels. `recovered_jitter.json` holds the strip-plot jitter recovered from the published PDFs (`recover_jitter.py`). `vendor/statannotations` is statannotations 0.7.2, unmodified (MIT licence included). |
@@ -54,7 +54,7 @@ bash scripts/figures/build_all.sh panels     # or composites
 
 Notes on the composite folders:
 
-- Final single-panel fixes run after the main script and write to `panels_fix/` (S7 f and g to `panels/`): `S7/s7fg_fix.py`, `S8/s8_fix_cdef.py`, `S10/fix_c_al121.py` (run with `1.5 0.3 AL121890.2,AL031666.2`), `S11/s11c_relabel.py`, `Fig3/f3f_fix_italic.py`.
+- Final single-panel fixes run after the main script and write to `panels_fix/` (S2 f and g to `panels/`): `S2/s2fg_fix.py`, `S8/s8_fix_cdef.py`, `S10/fix_c_al121.py` (run with `1.5 0.3 AL121890.2,AL031666.2`), `S11/s11c_relabel.py`, `Fig3/f3f_fix_italic.py`.
 - `Fig2/fig2_panels.py` is run three times with different label-placement options (listed in its docstring and in `build_all.sh`).
-- `S4/make_cells.py`, `Fig2/make_layout.py` and `Fig4/fig4_layout.py` rewrite the layout JSON next to them; the S9 script also writes its layout to the output folder. The committed layouts are the ones used for the final figures.
+- `S5/make_cells.py`, `Fig2/make_layout.py` and `Fig4/fig4_layout.py` rewrite the layout JSON next to them; the S9 script also writes its layout to the output folder. The committed layouts are the ones used for the final figures.
 - Several scripts compare their output with the version-1 or v23 panel files and stop if points, bars or labels differ.

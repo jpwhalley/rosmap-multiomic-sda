@@ -1,14 +1,14 @@
-"""Figure 4i, 4j, Figure S5 and Figure S6 (Components 172 and 277).
+"""Figure 4i, 4j, Figure S6 and Figure S7 (Components 172 and 277).
 Per-donor views: RA/revision_analyses/neuronal_c21/cache/n05_views.npy (n05_source_data.py: SDA input CPM; top-50 PIP > 0.5
 gene aggregate in the dominant cell type, weights = gene loading x corrected cell-type loading; snRNA-seq RNA-1/RNA-2
 excluded, n 274; verified VNC v04). Joint models: neuronal_c21/out/n03_joint_models.csv (verified VNC v01 R polr).
 Composition: verify_neuronal_c21/cache/frame_comp.csv (RNA-mismatched donors excluded, n 274) and
 verify_neuronal_c21/out/v03_total_direct.csv (n 254 rows).
  Fig 4i  LRP8 (Inh) vs C172 score;  Fig 4j  PLCB1 (Exc) vs C277 score
- S5a,b   odds ratios, each phenotype alone (open) and jointly (filled), n 254
- S5c,d   C277 score vs neuronal fraction and vs layer 2-3 CBLN2 share of Exc nuclei, coloured by diagnosis
- S5e     AD dementia vs NCI effect on the rank-INT C277 score, total and after each composition set (n 254)
- S6a-l   C172 (Inh) and C277 (Exc) source data vs score and vs phenotype"""
+ S6a,b   odds ratios, each phenotype alone (open) and jointly (filled), n 254
+ S6c,d   C277 score vs neuronal fraction and vs layer 2-3 CBLN2 share of Exc nuclei, coloured by diagnosis
+ S6e     AD dementia vs NCI effect on the rank-INT C277 score, total and after each composition set (n 254)
+ S7a-l   C172 (Inh) and C277 (Exc) source data vs score and vs phenotype"""
 import numpy as np, pandas as pd
 from scipy import stats as ss
 from matplotlib.lines import Line2D
@@ -37,13 +37,13 @@ def scatter_view(k, view, fname, folder, size=(8, 6)):
 scatter_view(172, "LRP8", "Fig4i_C172_LRP8_Inh_vs_score", "Fig4")
 scatter_view(277, "PLCB1", "Fig4j_C277_PLCB1_Exc_vs_score", "Fig4")
 
-# ---------------------------------------------------------------- S6 a-c, g-i scatters
+# ---------------------------------------------------------------- S7 a-c, g-i scatters
 for letter, view in zip("abc", ["LRP8", "SYN3", "aggregate"]):
-    scatter_view(172, view, f"S6{letter}_C172_{view}_Inh_vs_score", "FigS6", size=(7, 5.5))
+    scatter_view(172, view, f"S7{letter}_C172_{view}_Inh_vs_score", "FigS7", size=(7, 5.5))
 for letter, view in zip("ghi", ["PLCB1", "LRP1B", "aggregate"]):
-    scatter_view(277, view, f"S6{letter}_C277_{view}_Exc_vs_score", "FigS6", size=(7, 5.5))
+    scatter_view(277, view, f"S7{letter}_C277_{view}_Exc_vs_score", "FigS7", size=(7, 5.5))
 
-# ---------------------------------------------------------------- S6 d-f (CERAD), j-l (diagnosis)
+# ---------------------------------------------------------------- S7 d-f (CERAD), j-l (diagnosis)
 def boxes(ax, groups, labels, colours, ylab):
     data = [g for g in groups]
     bp = ax.boxplot(data, positions=range(len(data)), widths=0.6, showfliers=False, patch_artist=True,
@@ -66,7 +66,7 @@ for k, letters in ((172, "def"), (277, "jkl")):
             fig, ax = plt.subplots(figsize=(6, 6))
             boxes(ax, g, [f"non-AD\n(n = {int((~ad).sum())})", f"AD\n(n = {int(ad.sum())})"], [SET2[0], SET2[1]], ylab)
             ax.set_xlabel("CERAD score")
-            LOG.append(f"S6{letter} C172 {view}: non-AD n {int((~ad).sum())}, AD n {int(ad.sum())}")
+            LOG.append(f"S7{letter} C172 {view}: non-AD n {int((~ad).sum())}, AD n {int(ad.sum())}")
         else:
             order = [(1, "NCI"), (2, "MCI"), (4, "AD\ndementia"), (3, "MCI +\nother"), (5, "AD +\nother"), (6, "other\ndementia")]
             cg = cl.cogdx.values
@@ -75,13 +75,13 @@ for k, letters in ((172, "def"), (277, "jkl")):
             boxes(ax, g, [f"{lab}\n(n = {int((cg == v).sum())})" for v, lab in order], [DXCOL[1], DXCOL[2], DXCOL[4]] + [GREYB] * 3, ylab)
             ax.axvline(2.5, color="grey", lw=0.8, ls=":")
             ax.set_xlabel("final clinical diagnosis")
-            LOG.append(f"S6{letter} C277 {view}: " + ", ".join(f"{lab.replace(chr(10), ' ')} n {int((cg == v).sum())}" for v, lab in order))
-        fig.tight_layout(); save(fig, "FigS6", f"S6{letter}_C{k}_{view}_{ct}_by_{'CERAD' if k == 172 else 'diagnosis'}", LOG)
+            LOG.append(f"S7{letter} C277 {view}: " + ", ".join(f"{lab.replace(chr(10), ' ')} n {int((cg == v).sum())}" for v, lab in order))
+        fig.tight_layout(); save(fig, "FigS7", f"S7{letter}_C{k}_{view}_{ct}_by_{'CERAD' if k == 172 else 'diagnosis'}", LOG)
 Pt = pd.read_csv(f"{RA}/neuronal_c21/out/n05_source_vs_phenotype.csv")
 for _, r in Pt.iterrows():
-    LOG.append(f"S6 phenotype (n05, verified VNC v04): C{r.component} {r.view} {r.term} n {r.n}: {r.beta_SD:+.2f} SD [{r.lo:+.2f}, {r.hi:+.2f}], p {r.p:.2g}")
+    LOG.append(f"S7 phenotype (n05, verified VNC v04): C{r.component} {r.view} {r.term} n {r.n}: {r.beta_SD:+.2f} SD [{r.lo:+.2f}, {r.hi:+.2f}], p {r.p:.2g}")
 
-# ---------------------------------------------------------------- S5a,b joint models
+# ---------------------------------------------------------------- S6a,b joint models
 J = pd.read_csv(f"{RA}/neuronal_c21/out/n03_joint_models.csv")
 J = J[J.set == "cogdx124"]
 Vp = pd.read_csv(f"{RA}/verify_neuronal_c21/out/v01_polr.csv"); Vp = Vp[Vp.set == "cogdx124"]
@@ -98,15 +98,15 @@ for k, letter, col in ((172, "a", CTCOL["Inh"]), (277, "b", CTCOL["Exc"])):
             assert abs(r.OR - v.OR) < 0.005 and abs(r.OR_lo - v.OR_lo) < 0.005 and abs(r.OR_hi - v.OR_hi) < 0.01, (k, mdl, t)
             ax.errorbar(r.OR, yb + off, xerr=[[r.OR - r.OR_lo], [r.OR_hi - r.OR]], fmt="o", color=col, mfc=col if joint else "white",
                         mec=col, ms=9, lw=1.8, capsize=0, label=("all three in one model" if joint else "each phenotype alone") if i == 0 else None)
-            LOG.append(f"S5{letter} C{k} {lab} {'joint' if joint else 'alone'} (n {r.n}): OR {r.OR:.2f} [{r.OR_lo:.2f}, {r.OR_hi:.2f}]")
+            LOG.append(f"S6{letter} C{k} {lab} {'joint' if joint else 'alone'} (n {r.n}): OR {r.OR:.2f} [{r.OR_lo:.2f}, {r.OR_hi:.2f}]")
     ax.axvline(1, color="k", lw=0.8, ls="--"); ax.set_xscale("log")
     ax.set_xticks([0.2, 0.5, 1, 2]); ax.set_xticklabels(["0.2", "0.5", "1", "2"]); ax.xaxis.set_minor_locator(mpl.ticker.NullLocator())
     ax.set_xlim(0.15, 2.5)
     ax.set_yticks(range(len(TERMS))); ax.set_yticklabels([t[1] for t in TERMS][::-1])
     ax.set_xlabel("odds ratio for a higher score"); ax.legend(frameon=False, fontsize=13, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2)
-    sns.despine(ax=ax); fig.tight_layout(); save(fig, "FigS5", f"S5{letter}_C{k}_odds_ratios_alone_vs_joint", LOG)
+    sns.despine(ax=ax); fig.tight_layout(); save(fig, "FigS6", f"S6{letter}_C{k}_odds_ratios_alone_vs_joint", LOG)
 
-# ---------------------------------------------------------------- S5c,d composition scatters
+# ---------------------------------------------------------------- S6c,d composition scatters
 F = pd.read_csv(f"{RA}/verify_neuronal_c21/cache/frame_comp.csv")       # rows in md_samples order (checked via the scores)
 assert len(F) == 276 and np.allclose(F.s277.values, score(277)) and np.allclose(F.s172.values, score(172))
 assert (F.rna_mismatch.values.astype(bool) == excl_mask("RNA")).all()
@@ -118,11 +118,11 @@ for letter, x, xl in (("c", "p_neu", "neuronal fraction of nuclei (Exc + Inh)"),
     m = ~own.cogdx.isin([1, 2, 4]); ax.scatter(own.loc[m, x], own.loc[m, "s277"], s=26, color=GREYB, alpha=0.85, linewidths=0, label="other diagnosis")
     ax.set_xlabel(xl); ax.set_ylabel("Component 277 loadings/score"); sns.despine(ax=ax)
     if letter == "c": ax.legend(frameon=False, fontsize=13, loc="lower right", markerscale=1.3)
-    fig.tight_layout(); save(fig, "FigS5", f"S5{letter}_C277_score_vs_{'neuronal_fraction' if x == 'p_neu' else 'L2-3_CBLN2_share'}", LOG)
+    fig.tight_layout(); save(fig, "FigS6", f"S6{letter}_C277_score_vs_{'neuronal_fraction' if x == 'p_neu' else 'L2-3_CBLN2_share'}", LOG)
     r, p, n = spearman(own[x].values, own.s277.values); r6, _, n6 = spearman(F[x].values, F.s277.values)
-    LOG.append(f"S5{letter} C277 vs {x}: n {n}; rho {r:+.3f} (all 276: {r6:+.3f})")
+    LOG.append(f"S6{letter} C277 vs {x}: n {n}; rho {r:+.3f} (all 276: {r6:+.3f})")
 
-# ---------------------------------------------------------------- S5e total vs direct (n 254)
+# ---------------------------------------------------------------- S6e total vs direct (n 254)
 T = pd.read_csv(f"{RA}/verify_neuronal_c21/out/v03_total_direct.csv")
 T = T[(T.component == 277) & (T["sample"] == "cogdx124")].set_index("comp")
 assert (T.n == 254).all()
@@ -147,8 +147,8 @@ for variant in ("", "_alt_with_shares"):
     ax.axvline(0, color="k", lw=0.8, ls="--")
     ax.set_yticks(range(len(order) + 1)); ax.set_yticklabels([LAB[c] for c in order][::-1] + ["without composition"])
     ax.set_xlabel("AD dementia vs NCI\n(SD of rank-inverse-normal score)")
-    sns.despine(ax=ax); fig.tight_layout(); save(fig, "FigS5", f"S5e_C277_dementia_effect_total_vs_direct{variant}", LOG)
-LOG.append(f"S5e total {r0.total:+.2f} [{r0.total_lo:+.2f}, {r0.total_hi:+.2f}] (n {int(r0.n)}); " +
+    sns.despine(ax=ax); fig.tight_layout(); save(fig, "FigS6", f"S6e_C277_dementia_effect_total_vs_direct{variant}", LOG)
+LOG.append(f"S6e total {r0.total:+.2f} [{r0.total_lo:+.2f}, {r0.total_hi:+.2f}] (n {int(r0.n)}); " +
            "; ".join(f"{c}: direct {T.loc[c, 'direct']:+.2f} [{T.loc[c, 'direct_lo']:+.2f}, {T.loc[c, 'direct_hi']:+.2f}], share {T.loc[c, 'share']:.1%} [{T.loc[c, 'share_lo']:.1%}, {T.loc[c, 'share_hi']:.1%}]" for c in order))
 open(f"{OUT}/p05_neuronal.log", "w").write("\n".join(LOG) + "\n")
 print("\n".join(LOG))

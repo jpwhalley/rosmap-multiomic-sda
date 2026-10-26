@@ -9,7 +9,7 @@ genotype within each cell type and plot a boxplot per tissue.
 Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
 Disease in the Aged Human Cortex* (under review at npj Aging).
 Methods §"Genetic association and eQTL analysis". Underlies Supplementary
-Figure S7e (Component 21 olfactory-receptor eQTL signal).
+Figure S2e (Component 21 olfactory-receptor eQTL signal).
 
 Known label error: `classify_qtl` compares the SNP position from the genotype
 `.bim` (NCBI36/hg18) with GRCh38 gene coordinates, so the `cis|trans` part of

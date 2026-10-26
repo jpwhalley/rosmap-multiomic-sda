@@ -1,34 +1,20 @@
 {
  "width_mm": 142.9,
- "height_mm": 159.5,
+ "height_mm": 132.5,
  "cells": [
   {
-   "file": "$G_ROS_FIGURE_OUT/S3/panels/S3a_final.pdf",
+   "file": "$G_ROS_FIGURE_OUT/S3/panels/S3a_rint_effects_central_five_cell.pdf",
    "x_mm": 0,
    "y_mm": 0,
    "w_mm": 142.9,
    "letter": "a"
   },
   {
-   "file": "$G_ROS_FIGURE_OUT/S3/panels/S3b_final.pdf",
+   "file": "$G_ROS_FIGURE_OUT/S3/panels/S3b_C278_effect_across_models_cell.pdf",
    "x_mm": 0,
-   "y_mm": 51.0,
+   "y_mm": 63.0,
    "w_mm": 142.9,
    "letter": "b"
-  },
-  {
-   "file": "$G_ROS_FIGURE_OUT/S3/panels/S3c_final.pdf",
-   "x_mm": 0,
-   "y_mm": 91.5,
-   "w_mm": 106.0,
-   "letter": "c"
-  },
-  {
-   "file": "$G_ROS_FIGURE_OUT/S3/panels/S3d_final.pdf",
-   "x_mm": 106.5,
-   "y_mm": 91.5,
-   "w_mm": 36.4,
-   "letter": "d"
   }
  ]
 }

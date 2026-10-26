@@ -14,7 +14,7 @@ Methods §"Validation in an independent cohort"; the `SEA-AD_comp` and
 `SEA-AD_corr` columns of Data S1. The Spearman correlation, the permutation
 null and the replication criterion are computed in
 `scripts/round2/concentration/structure/02_seaad.py`, and the SEA-AD panels
-(Figures 2c, 3d, S1d, S3d) are drawn by `scripts/figures/`.
+(Figures 2c, 3d, S1d, S4d) are drawn by `scripts/figures/`.
 
 Original filename in the working tree: `synth1b_croos_clin_manuscript.py`.
 

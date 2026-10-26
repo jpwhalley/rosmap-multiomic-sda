@@ -21,7 +21,7 @@ output (panel PDFs, logs, composite builds) goes under G_ROS_FIGURE_OUT.
                           default <results>/catalogue_1008
   G_ROS_ARCHIVE_DIR       version-1 result tables; default <repo>/version1_results
   G_ROS_ENRICHR_DIR       Enrichr KEGG tables, <component>_pathway_encrichment.csv; default <archive>/enrichr
-  G_ROS_DEPOSIT_DIR       Synapse deposit, version 2; default <repo>/synapse
+  G_ROS_DEPOSIT_DIR       Synapse deposit, version 3; default <repo>/synapse
   G_ROS_SOURCE_DATA_DIR   source-data tables (Figure S9; S9a also reads controlled/); default <deposit>/source_data
   G_ROS_ROUND1_DIR        first-revision outputs (fig4c_points.csv, Figure 2c)
   G_ROS_V1_PANELS_DIR     version-1 panel files (outlier/<k>/, enrichr/, GWAS/); several builders check their

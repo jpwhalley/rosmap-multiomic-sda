@@ -13,7 +13,7 @@ Code for the analyses added in the second revision and for the 2026-10-08 correc
 |---|---|
 | `G_ROS_ROSMAP_DIR` | ROSMAP data from the AD Knowledge Portal and the SDA files: `sda/` (SDA inputs, `results1..10/`, version-1 consensus `*_final.csv`), `oth/meta/`, `oth/snps/` (array genotypes, archived GEMMA runs), `oth/chip/`, `oth/meth/`, `meth/`, `prot/tmt/`, `mit/meta/`, `mit/rna/`, `mit/atac/`. `G_ROS_SDA_DIR`, if set, must point to its `sda/` |
 | `G_ROS_SEAAD_DIR` | SEA-AD DLPFC: `gene_info.csv` and the SDA folder `sda/` |
-| `G_ROS_DEPOSIT_DIR`, `G_ROS_REFERENCES_DIR` | Synapse deposit (version 2) and the reference tables, as for the notebooks |
+| `G_ROS_DEPOSIT_DIR`, `G_ROS_REFERENCES_DIR` | Synapse deposit (version 3) and the reference tables, as for the notebooks |
 | `G_ROS_SEQUENCES_DIR` | GRCh37 FASTA (+ `.fai`), Ensembl 100 GTF and cDNA, dbSNP 135 (hg18) VCF |
 | `G_ROS_ARCHIVE_DIR` | Version-1 Enrichr result tables (`enrichr/`, `cpg_enrichr/`) |
 | `G_ROS_DATA_S1_V22`, `G_ROS_DATA_S1` | Data S1 as submitted in version 22 (input of the 10-08 correction; default `data_s1/Data_S1_v22.csv`, shipped) and this version |
@@ -33,12 +33,12 @@ Code for the analyses added in the second revision and for the 2026-10-08 correc
 | 4 | `source_data/` (steps 1 to 3) | Input and loading caches, protein mapping, batch tests | Methods: Proteomics, Source-data views |
 | 5 | `identity/` | Sample identity checks | Methods: Sample identity checks |
 | 6 | `covariates/` | Covariate-adjusted models | Methods: Association with phenotypes |
-| 7 | `dossier/` | Effect estimates with CIs, concentration, C21 checks | Results: the five components; Figure S2 |
+| 7 | `dossier/` | Effect estimates with CIs, concentration, C21 checks | Results: the five components; Figure S3 |
 | 8 | `fixed_loading/` | Fixed-loading re-estimation, two implementations | Methods: Sensitivity to the proteomics input |
-| 9 | `c21/` | GWAS of all 547 components, C21 sensitivity and eQTL comparison | Results: Component 21; Figure S7 |
+| 9 | `c21/` | GWAS of all 547 components, C21 sensitivity and eQTL comparison | Results: opening paragraph; Methods: Genetic association and eQTL analysis; Figure S2 |
 | 10 | `concentration/` | Donor concentration, SEA-AD statistics, prioritisation, selection of the five | Results: Decomposition structure; Figure S1 |
-| 11 | `c74_c278/` | Components 74 and 278 | Results; Figures 2, 3, S3, S4 |
-| 12 | `neuronal/` | Components 172 and 277 | Results; Figures 4, 5, S5, S6 |
+| 11 | `c74_c278/` | Components 74 and 278 | Results; Figures 2, 3, S4, S5 |
+| 12 | `neuronal/` | Components 172 and 277 | Results; Figures 4, 5, S6, S7 |
 | 13 | `source_data/named/` | Named features of the donor-concentrated components | Results: Donor-concentrated components |
 | 14 | `data_s1/` | Data S1 of this version | Data S1 |
 

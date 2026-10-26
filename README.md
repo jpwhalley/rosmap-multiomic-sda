@@ -21,7 +21,7 @@ repository holds:
   (`scripts/README.md`);
 - `scripts/round2/`: the analyses added in this revision (sample identity
   checks, covariate-adjusted models, fixed-loading re-estimation, donor
-  concentration and prioritisation, the five described components, Data S1;
+  concentration and prioritisation, the five reported components, Data S1;
   `scripts/round2/README.md`);
 - `scripts/seaad/`: the SEA-AD preprocessing and SDA runs used for the
   cross-cohort validation (`scripts/seaad/README.md`);
@@ -29,7 +29,7 @@ repository holds:
   Figures 2 to 5 and S1 to S11 (`scripts/figures/README.md`).
 
 > **Status.** The manuscript is under review. This version of the
-> repository matches the revised manuscript and version 2 of the Synapse
+> repository matches the revised manuscript and version 3 of the Synapse
 > deposit `syn75275226` (see "Changes in this version"). The release DOI
 > will be added on publication.
 
@@ -114,7 +114,7 @@ starting Jupyter.
 
 The derived data are AD Knowledge Portal dataset
 [`syn75275226`](https://www.synapse.org/Synapse:syn75275226) (under the
-ROSMAP project `syn3219045`). Use **version 2** (DOI: [10.7303/syn75275226.2](https://doi.org/10.7303/syn75275226.2)), which
+ROSMAP project `syn3219045`). Use **version 3** (DOI: [10.7303/syn75275226.3](https://doi.org/10.7303/syn75275226.3)), which
 holds the 547 components described here.
 **Download via the
 [AD Knowledge Portal](https://adknowledgeportal.synapse.org/Data%20Access)
@@ -130,7 +130,9 @@ after completing the data use certificate (DUC).**
 
 The deposit README lists the other files it holds (Data S1 and the figure
 source data). Version 1 of the deposit (DOI 10.7303/syn75275226.1; 546
-components) is superseded by version 2; see "Changes in this version".
+components) is superseded by version 2, and version 3 renames the figure
+source-data files to the final supplementary figure numbering (the data are
+unchanged); see "Changes in this version".
 
 **Proteomics.** The TMT proteomics layer was a modelled input of the
 decomposition. Because of an identifier error in that input (TMT columns
@@ -224,7 +226,7 @@ shown in the manuscript figures:
 | 278 | Figure 3: sex-biased component shared by OPCs and mature oligodendrocytes |
 | 172 | Figure 4: neuron-dominated component associated with neuritic plaque burden |
 | 277 | Figure 5: neuron-dominated component associated with clinical Alzheimer's dementia |
-| 21  | Supplementary Figure S7: ectopic olfactory receptor expression and its *cis*-genetic regulation |
+| 21  | Supplementary Figure S2: ectopic olfactory receptor expression and its *cis*-genetic regulation |
 | 351 | Supplementary Figure S8: a single-individual multi-omic profile |
 | 2   | Supplementary Figure S9: a single-individual multi-omic profile |
 | 87  | Supplementary Figure S10: a single-individual multi-omic profile |

@@ -1,4 +1,4 @@
-"""Figure S7 (Component 21) panels a-g redrawn at their final printed size (v23 supplement, 2026-10-16).
+"""Figure S2 (Component 21) panels a-g redrawn at their final printed size (v23 supplement, 2026-10-16).
 
 Every panel is drawn at exactly its cell size in the composite (supplement \\textwidth = 142.9 mm, placed at 100 %),
 with explicit Arial sizes (axis titles 7 pt, ticks/keys/titles 6.5 pt, in-plot gene/SNP labels 6 pt) and pdf.fonttype
@@ -29,14 +29,14 @@ Same data, same computations, same colours and labels as the published panels:
                           typ 2); seaborn boxplot (Set2, saturation .75, whis 1.5, no fliers) + grey stripplot (alpha .5).
                           Titles are the v22 titles, broken after the cell type; p values and genotype n are recomputed
                           and asserted equal to the published panel/legend. Strip jitter is seeded here (random in v22).
-  f, g  S7a/S7b panels <- panels/p06_c21_single.py (same functions and data; n 274).
+  f, g  S2a/S2b panels <- panels/p06_c21_single.py (same functions and data; n 274).
 
 Reads only (locations from figure_paths.py): the SDA outputs, the clinical table, the genotypes, pseudobulk and
 GEMMA output under G_ROS_ROSMAP_DIR, the GRCh38.100 annotation, the analysis caches through vp_common, and the
 version-1 panels for the checks. Prints and logs aggregates only (no donor
 IDs, no per-donor values).
 Run: PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 VECLIB_MAXIMUM_THREADS=2 \\
-     python s7_panels_final_size.py
+     python s2_panels_final_size.py
 """
 import os, re, sys, warnings
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -50,7 +50,7 @@ from statsmodels.formula.api import ols
 from pdf_streams import streams
 
 from figure_paths import V1_PANELS
-PAN = f"{FIGOUT}/S7/panels"
+PAN = f"{FIGOUT}/S2/panels"
 os.makedirs(PAN, exist_ok=True)
 MM = 1 / 25.4
 LOG = []
@@ -173,7 +173,7 @@ h_ = [mlines.Line2D([], [], color=color_map[s_], marker="o", linestyle="None", m
       for s_ in ("Male", "Female")]
 ax.legend(handles=h_, loc="upper left", bbox_to_anchor=(1.0, 1.04), frameon=False, handletextpad=0.2,
           borderaxespad=0.3, labelspacing=0.35)
-savep(fig, "S7a_C21_samples_final")
+savep(fig, "S2a_C21_samples_final")
 
 # ================================================================== b: cell-type loadings (ros3b cell-type block)
 tissues = pd.read_csv(BCOR, index_col=0)[["Ast", "Exc", "Inh", "Mic", "OPC", "Oli"]]
@@ -188,7 +188,7 @@ ax.bar(y_pos, list(tissues.loc[21]), align="center", color=[CTCOL[x_] for x_ in 
 ax.set_xticks(y_pos); ax.set_xticklabels(list(tissues.columns))
 ax.set_ylabel("loadings/score")
 ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(0.2))
-savep(fig, "S7b_C21_cell_type_final")
+savep(fig, "S2b_C21_cell_type_final")
 
 # ================================================================== c: gene loadings by chromosome (ros3b RNA block)
 genes1 = pd.read_csv(f"{SDA}/genes_final_RNA.csv", index_col=0)
@@ -295,7 +295,7 @@ for side, L_ in cols.items():
         ax.plot([xp, xl - (0.25 * ux if side == "right" else -0.25 * ux)], [yp, yl], color="k", lw=0.3, zorder=1)
 LOG.append(f"c: y limits {ymin_c:.1f} to {top_c:.1f} (ros3b {ymin_c:.1f} to {ymax_c:.1f}); min tick spacing "
            f"{np.diff(ticks_c).min() / ux:.2f} mm")
-savep(fig, "S7c_C21_RNA_final")
+savep(fig, "S2c_C21_RNA_final")
 
 # ================================================================== d: GWAS Manhattan (ros5 + assocplots.manhattan)
 GW = pd.read_csv(f"{ROSD}/oth/snps/gemma/output/results21.abbr.txt", sep=" ", header=None,
@@ -336,7 +336,7 @@ LOG.append(f"d: {nplot} SNPs on chr 1-22 (GEMMA analysed {len(GW)}; n 228); top 
            f"(p {10 ** -top[1]:.2g}); SNPs >= 8: {int((-np.log10(GW.p.values) >= 8).sum())}; "
            f"boundary match to PNG grey lines max {dev:.2f} px")
 assert top[2] == "rs6664332" and abs(top[1] - 15.381) < 0.01 and dev <= 1.0
-savep(fig, "S7d_C21_Manhattan_final")
+savep(fig, "S2d_C21_Manhattan_final")
 
 # ================================================================== e: OR2L3 eQTL by rs6664332 genotype (ros8 RNA block)
 SNP = f"{ROSD}/oth/snps/ROSMAP_arrayGenotype_maf"
@@ -404,9 +404,9 @@ for i, ct in enumerate(sorted(E_)):
         ax.tick_params(labelleft=False)
     ax.yaxis.set_major_locator(mpl.ticker.MultipleLocator(2))
     axes.append(ax)
-savep(fig, "S7e_C21_OR2L3_rs6664332_eQTL_final")
+savep(fig, "S2e_C21_OR2L3_rs6664332_eQTL_final")
 
-# ================================================================== f, g: p06_c21_single.py S7a / S7b at final size
+# ================================================================== f, g: p06_c21_single.py S2a / S2b at final size
 RNA = rna_input()
 exR = excl_mask("RNA"); keepR = ~exR
 
@@ -428,11 +428,11 @@ def gene(k_, g_, ct):
 
 
 a21 = score(21)
-assert not outliers_30iqr(a21).any()               # single x axis (no broken axis), as the S7a/S7b files
+assert not outliers_30iqr(a21).any()               # single x axis (no broken axis), as the S2a/S2b files
 yf = gene(21, "OR2L3", "Exc"); yg, n_agg = top50_agg(21, "Exc")
 ext = most_extreme(a21)
-for nm, yy_, lab in (("S7f_C21_OR2L3_Exc_vs_score_final", yf, "OR2L3 in Exc (CPM)"),
-                     ("S7g_C21_aggregate_Exc_vs_score_final", yg, "top-50 gene aggregate in Exc\nweighted mean z")):
+for nm, yy_, lab in (("S2f_C21_OR2L3_Exc_vs_score_final", yf, "OR2L3 in Exc (CPM)"),
+                     ("S2g_C21_aggregate_Exc_vs_score_final", yg, "top-50 gene aggregate in Exc\nweighted mean z")):
     fig, w, h = fig_mm("f")
     fL = 10.4; fb = 6.6
     ax = ax_mm(fig, w, h, fL, fb, w - fL - 3.6, h - TOP - fb)
@@ -450,5 +450,5 @@ for nm, yy_, lab in (("S7f_C21_OR2L3_Exc_vs_score_final", yf, "OR2L3 in Exc (CPM
     LOG.append(f"{nm.split('_')[0]}: n {n_}; Spearman {r_:+.3f}; without the most extreme donor "
                f"{ss.spearmanr(yy_[m_], a21[m_])[0]:+.3f}" + (f"; aggregate genes {n_agg}" if "aggregate" in nm else ""))
 
-open(f"{PAN}/s7_panels.log", "w").write("\n".join(LOG) + "\n")
+open(f"{PAN}/s2_panels.log", "w").write("\n".join(LOG) + "\n")
 print("\n".join(LOG))

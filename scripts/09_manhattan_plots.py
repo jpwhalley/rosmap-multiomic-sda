@@ -8,7 +8,7 @@ results produced by GEMMA on the cluster.
 Manuscript: Whalley J.P. et al., *Multi-omic Analysis of Sex and Alzheimer's
 Disease in the Aged Human Cortex* (under review at npj Aging).
 Methods §"Genetic association and eQTL analysis"; Component 21 in
-Supplementary Figure S7.
+Supplementary Figure S2.
 
 Original filename in the working tree: `ros5_Manhattan_Plot_maf.py`.
 

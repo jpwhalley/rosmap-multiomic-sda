@@ -13,7 +13,7 @@ Shared helpers for the figure-reproduction notebooks accompanying
 The notebooks in this repository each reproduce one or more manuscript figures
 or tables. They consume the multi-omic Sparse Decomposition of Arrays (SDA)
 component-loading matrices deposited on Synapse (AD Knowledge Portal dataset
-syn75275226, version 2, under the ROSMAP project syn3219045) and a small set
+syn75275226, version 3, under the ROSMAP project syn3219045) and a small set
 of public reference annotations the user downloads into `references/` (see
 references/README.md for sources).
 
@@ -103,7 +103,7 @@ HEADLINE_COMPONENTS: dict[int, str] = {
     278: "Figure 3: sex-biased component shared by OPCs and mature oligodendrocytes",
     172: "Figure 4: neuron-dominated component associated with neuritic plaque burden",
     277: "Figure 5: neuron-dominated component associated with clinical Alzheimer's dementia",
-    21:  "Supplementary Figure S7: ectopic olfactory receptor expression and its cis-genetic regulation",
+    21:  "Supplementary Figure S2: ectopic olfactory receptor expression and its cis-genetic regulation",
     351: "Supplementary Figure S8: a single-individual multi-omic profile",
     2:   "Supplementary Figure S9: a single-individual multi-omic profile",
     87:  "Supplementary Figure S10: a single-individual multi-omic profile",

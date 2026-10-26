@@ -1,13 +1,13 @@
-"""Figure S4 (Component 278 source data) panels redrawn at their final printed size for the composite.
+"""Figure S5 (Component 278 source data) panels redrawn at their final printed size for the composite.
 
-Same data, statistics, colours and label text as panels/p04_c278.py (the S4 part, copied below; Fig 3f
-is not drawn here). Only the drawing changed: each panel is drawn at exactly its cell size in the S4 layout (mm),
+Same data, statistics, colours and label text as panels/p04_c278.py (the S5 part, copied below; Fig 3f
+is not drawn here). Only the drawing changed: each panel is drawn at exactly its cell size in the S5 layout (mm),
 with explicit Arial sizes (ticks 6 pt, axis labels 6.5 pt, keys 6 pt), thinner lines and smaller markers to suit
-the size. Two-line breaks were added to some labels so they fit (text unchanged). The S4a sex key moved from inside
+the size. Two-line breaks were added to some labels so they fit (text unchanged). The S5a sex key moved from inside
 the FKBP5-in-OPC axes to the strip just above panel a (it no longer fits inside an axes at this size).
 
 Reads (read-only) through vp_common: the SDA outputs and the analysis outputs. Writes only to
-<G_ROS_FIGURE_OUT>/S4/panels/. Logs aggregate statistics only (no donor IDs, no per-donor values); the log is compared
+<G_ROS_FIGURE_OUT>/S5/panels/. Logs aggregate statistics only (no donor IDs, no per-donor values); the log is compared
 with <G_ROS_FIGURE_OUT>/panels/p04_c278.log (panels/p04_c278.py, run first) by check_against_p04()."""
 import os, sys
 os.environ.setdefault("OMP_NUM_THREADS", "2"); os.environ.setdefault("OPENBLAS_NUM_THREADS", "2")
@@ -21,9 +21,9 @@ from matplotlib.lines import Line2D
 from vp_common import *          # noqa: F401,F403  (loaders, palette, style; makes no new files)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PAN = f"{FIGOUT}/S4/panels"
+PAN = f"{FIGOUT}/S5/panels"
 os.makedirs(PAN, exist_ok=True)
-LAYOUT = json.load(open(f"{HERE}/cells_S4.json"))     # cell sizes (mm), shared with the compose layout
+LAYOUT = json.load(open(f"{HERE}/cells_S5.json"))     # cell sizes (mm), shared with the compose layout
 
 # ------------------------------------------------------------------ print style (sizes in points)
 TICK, LAB, KEY = 6.0, 6.5, 6.0
@@ -145,7 +145,7 @@ def sexkey(n_m=None, n_f=None):
 KEYKW = dict(frameon=False, handlelength=0.8, handletextpad=0.3, borderpad=0.2, labelspacing=0.3, borderaxespad=0.2)
 PROBS = []
 
-# ------------------------------------------------------------------ S4a: 2 x 3, OPC top, Oli bottom
+# ------------------------------------------------------------------ S5a: 2 x 3, OPC top, Oli bottom
 G = LAYOUT["a"]["grid"]
 fig = mmfig("a")
 axs = grid(fig, G["lefts"], G["top"], G["w"], G["h"], 2, G["gap_y"])
@@ -155,7 +155,7 @@ for r_, ct in enumerate(("OPC", "Oli")):
         y = np.log2(cpm(g, ct) + 1)
         sex_scatter(ax, y, f"{g} in {ct}\nlog2(CPM + 1)")
         rr, p, n = spearman(y[keep], a[keep])
-        LOG.append(f"S4a {g} {ct}: n {n}; rho {rr:+.3f}")
+        LOG.append(f"S5a {g} {ct}: n {n}; rho {rr:+.3f}")
 xlim = (np.nanmin(a[keep]), np.nanmax(a[keep])); pad = (xlim[1] - xlim[0]) * 0.05
 for ax in axs.flat:
     ax.set_xlim(xlim[0] - pad, xlim[1] + pad); ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(0.1))
@@ -165,9 +165,9 @@ for ax in axs[1]: ax.set_xlabel(XL2)
 # sex key: in the strip above the top-right axes (n as in p04: kept males / kept females)
 axs[0, 1].legend(handles=sexkey(int((keep & ~fem).sum()), int((keep & fem).sum())), loc="lower center",
                  bbox_to_anchor=(0.5, 1.0), ncol=2, columnspacing=1.2, **KEYKW)
-PROBS += save(fig, "S4a_leading_genes_OPC_Oli_vs_score")
+PROBS += save(fig, "S5a_leading_genes_OPC_Oli_vs_score")
 
-# ------------------------------------------------------------------ S4b: 2 x 2, all PIP genes (left), without the three (right)
+# ------------------------------------------------------------------ S5b: 2 x 2, all PIP genes (left), without the three (right)
 G = LAYOUT["b"]["grid"]
 pip = LR.P.values > 0.5; nolead = pip & ~np.isin(genes, LEAD)
 fig = mmfig("b")
@@ -179,16 +179,16 @@ for r_, ct in enumerate(("OPC", "Oli")):
         ag, n_ = zagg(Rc[:, sel], w[sel])
         sex_scatter(axs[r_, c_], ag, f"{ct}, {lab}\nweighted mean z")
         rr, p, n = spearman(ag[keep], a[keep])
-        LOG.append(f"S4b {ct} aggregate of {int(sel.sum())} PIP genes ({n_} with variance): n {n}; rho {rr:+.4f}")
+        LOG.append(f"S5b {ct} aggregate of {int(sel.sum())} PIP genes ({n_} with variance): n {n}; rho {rr:+.4f}")
 for ax in axs.flat:
     ax.set_xlim(xlim[0] - pad, xlim[1] + pad); ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(0.1))
     ax.yaxis.set_major_locator(mpl.ticker.MaxNLocator(5))
 for ax in axs[0]: ax.tick_params(labelbottom=False)
 for ax in axs[1]: ax.set_xlabel(XL2)
 axs[0, 0].legend(handles=sexkey(), loc="lower right", **KEYKW)
-PROBS += save(fig, "S4b_aggregates_with_and_without_leading_genes")
+PROBS += save(fig, "S5b_aggregates_with_and_without_leading_genes")
 
-# ------------------------------------------------------------------ S4c: female - male (verbatim statistics)
+# ------------------------------------------------------------------ S5c: female - male (verbatim statistics)
 rows = []
 for ct in ("OPC", "Oli"):
     for g in LEAD:
@@ -206,27 +206,27 @@ ax.axvline(0, color="grey", lw=0.5, ls=":")
 ax.set_yticks(yy); ax.set_yticklabels(D.lab); ax.set_ylim(-0.6, len(D) - 0.4)
 ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(0.2))
 ax.set_xlabel("female − male,\nmean log2(CPM + 1)"); sns.despine(ax=ax)
-PROBS += save(fig, "S4c_female_minus_male_leading_genes")
+PROBS += save(fig, "S5c_female_minus_male_leading_genes")
 for _, r in D.iterrows():
-    LOG.append(f"S4c {r.lab}: {r.d:+.3f} [{r.lo:+.3f}, {r.hi:+.3f}]; MW p {r.p:.2g}; n {r.nf} female, {r.nm} male")
+    LOG.append(f"S5c {r.lab}: {r.d:+.3f} [{r.lo:+.3f}, {r.hi:+.3f}]; MW p {r.p:.2g}; n {r.nf} female, {r.nm} male")
 
-# ------------------------------------------------------------------ S4d1: SOX6 and BCAS1 (rows) in OPC and Oli (columns)
+# ------------------------------------------------------------------ S5d1: SOX6 and BCAS1 (rows) in OPC and Oli (columns)
 G = LAYOUT["d1"]["grid"]
 fig = mmfig("d1")
 axs = grid(fig, G["lefts"], G["top"], G["w"], G["h"], 2, G["gap_y"])
 for r_, g in enumerate(("SOX6", "BCAS1")):
     for c_, ct in enumerate(("OPC", "Oli")):
         y = np.log2(cpm(g, ct) + 1); sex_scatter(axs[r_, c_], y, f"{g} in {ct}\nlog2(CPM + 1)")
-        rr, p, n = spearman(y[keep], a[keep]); LOG.append(f"S4d1 {g} {ct}: n {n}; rho {rr:+.3f}")
+        rr, p, n = spearman(y[keep], a[keep]); LOG.append(f"S5d1 {g} {ct}: n {n}; rho {rr:+.3f}")
 for ax in axs.flat:
     ax.set_xlim(xlim[0] - pad, xlim[1] + pad); ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(0.1))
     ax.yaxis.set_major_locator(mpl.ticker.MaxNLocator(5))
 for ax in axs[0]: ax.tick_params(labelbottom=False)
 for ax in axs[1]: ax.set_xlabel(XL2)
 axs[0, 0].legend(handles=sexkey(), loc="lower left", **KEYKW)
-PROBS += save(fig, "S4d1_SOX6_BCAS1_vs_score")
+PROBS += save(fig, "S5d1_SOX6_BCAS1_vs_score")
 
-# ------------------------------------------------------------------ S4d2: lineage markers (second-implementation v80 table)
+# ------------------------------------------------------------------ S5d2: lineage markers (second-implementation v80 table)
 T = pd.read_csv(f"{RA}/verify_c74_c278/out/v80_c278_markers.csv").dropna(subset=["rho_OPC"])
 GRP = {"OPC": "OPC", "committed": "committed", "mature": "mature"}
 G = LAYOUT["d2"]["ax"]
@@ -245,21 +245,21 @@ ax.set_xlabel("Spearman ρ\nwith the score"); sns.despine(ax=ax)
 # key in the strip above the axes (inside the axes it now covers data; was lower right in p04)
 ax.legend(loc="lower right", bbox_to_anchor=(1.0, 1.0), ncol=2, columnspacing=1.0, handlelength=1.4,
           **{k: v for k, v in KEYKW.items() if k != "handlelength"})
-PROBS += save(fig, "S4d2_lineage_markers_rho", letter_zone=False)
-LOG.append(f"S4d2 markers drawn: {len(T)} (CLDN11 not in the SDA gene list); SOX6 OPC {T.set_index('gene').loc['SOX6','rho_OPC']:+.2f}, "
+PROBS += save(fig, "S5d2_lineage_markers_rho", letter_zone=False)
+LOG.append(f"S5d2 markers drawn: {len(T)} (CLDN11 not in the SDA gene list); SOX6 OPC {T.set_index('gene').loc['SOX6','rho_OPC']:+.2f}, "
            f"Oli {T.set_index('gene').loc['SOX6','rho_Oli']:+.2f}; BCAS1 {T.set_index('gene').loc['BCAS1','rho_OPC']:+.2f} / {T.set_index('gene').loc['BCAS1','rho_Oli']:+.2f}")
 
-# ------------------------------------------------------------------ S4d3: OPC share of OPC + Oli nuclei
+# ------------------------------------------------------------------ S5d3: OPC share of OPC + Oli nuclei
 qc = pd.read_csv(f"{R2}/covariates/rna_qc_donor.csv", index_col=0); qc.index = qc.index.astype(str); qc = qc.loc[donors()]
 share = (qc.nuclei_OPC / (qc.nuclei_OPC + qc.nuclei_Oli)).values
 G = LAYOUT["d3"]["ax"]
 fig = mmfig("d3"); ax = axmm(fig, G["x"], G["y"], G["w"], G["h"])
 sex_scatter(ax, share, "OPC share of OPC + Oli nuclei"); ax.set_xlabel(XL)
 ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(0.05))
-PROBS += save(fig, "S4d3_OPC_share_vs_score", letter_zone=False)
-rr, p, n = spearman(share[keep], a[keep]); LOG.append(f"S4d3 OPC share: n {n}; rho {rr:+.3f}; p {p:.2g}")
+PROBS += save(fig, "S5d3_OPC_share_vs_score", letter_zone=False)
+rr, p, n = spearman(share[keep], a[keep]); LOG.append(f"S5d3 OPC share: n {n}; rho {rr:+.3f}; p {p:.2g}")
 
-# ------------------------------------------------------------------ S4d4: marker modules (second implementation, v80)
+# ------------------------------------------------------------------ S5d4: marker modules (second implementation, v80)
 Mo = pd.read_csv(f"{RA}/verify_c74_c278/out/v80_c278_modules.csv")
 Mo = Mo[Mo.ct != "composition"]
 G = LAYOUT["d4"]["ax"]
@@ -272,20 +272,21 @@ ax.set_yticks(yy); ax.set_yticklabels([f"{m} module, in {c}" for m, c in zip(Mo.
 ax.set_ylim(-0.6, len(Mo) - 0.4); ax.set_xlim(-0.41, 0.06)       # auto limits were about (-0.39, 0.06)
 ax.xaxis.set_major_locator(mpl.ticker.MultipleLocator(0.2))
 ax.set_xlabel("Spearman ρ\nwith the score"); sns.despine(ax=ax)
-PROBS += save(fig, "S4d4_marker_modules_rho", letter_zone=False)
-for _, r in Mo.iterrows(): LOG.append(f"S4d4 {r.module} module in {r.ct}: rho {r.rho:+.2f} [{r.lo:+.2f}, {r.hi:+.2f}]")
+PROBS += save(fig, "S5d4_marker_modules_rho", letter_zone=False)
+for _, r in Mo.iterrows(): LOG.append(f"S5d4 {r.module} module in {r.ct}: rho {r.rho:+.2f} [{r.lo:+.2f}, {r.hi:+.2f}]")
 
 
 # ------------------------------------------------------------------ same statistics as the v23 panels?
 def check_against_p04():
-    ref = [l for l in open(f"{OUT}/p04_c278.log").read().splitlines() if l.startswith("S4")]
-    mine = [l for l in LOG if l.startswith("S4")]
+    ref = [l for l in open(f"{OUT}/p04_c278.log").read().splitlines() if l.startswith("S5")]
+    mine = [l for l in LOG if l.startswith("S5")]
     miss = [l for l in ref if l not in mine]
-    LOG.append(f"statistics lines vs p04_c278.log: {len(ref)} reference S4 lines, {len(ref) - len(miss)} identical"
-               + ("" if not miss else "; DIFFERENT: " + " || ".join(miss)))
+    LOG.append(f"statistics lines vs p04_c278.log: {len(ref)} reference S5 lines, {len(ref) - len(miss)} identical"
+               + ("" if not miss else "; DIFFERENT: " + " || ".join(miss))
+               + ("" if ref else "; NO REFERENCE LINES: rerun panels/p04_c278.py (a log written before v2.0.2 has S4 lines)"))
 
 
 check_against_p04()
 LOG.append(f"layout problems in all panels: {len(PROBS)}")
-open(f"{PAN}/s4_panels.log", "w").write("\n".join(LOG) + "\n")
+open(f"{PAN}/s5_panels.log", "w").write("\n".join(LOG) + "\n")
 print("\n".join(LOG))

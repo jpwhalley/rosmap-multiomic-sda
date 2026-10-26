@@ -22,7 +22,7 @@ Sources and recipes (all read only):
      colours, 8 largest (black) and 8 smallest (grey) labelled, ros3b y limits, chromosome ticks rotated 90 degrees,
      full box. Labels placed by label_placer.py (from composites/S8; adjustText is not in the environment) with leader lines.
      Chromosome tick labels that would touch at this width are left blank (listed in the log).
-  g  S3b_cpg_and_H3K9ac_vs_score.pdf content as drawn for Fig 2g by
+  g  S4b_cpg_and_H3K9ac_vs_score.pdf content as drawn for Fig 2g by
      panels/p03b_fig2g_compact.py (same data, exclusions and aggregation as p03_c74.py): cg26921482 beta
      (n 216), H3K9ac weighted mean z at the 537 chrX and 120 autosomal C74 peaks (n 189), against the C74 score,
      coloured by recorded sex; x title on the middle plot, Male/Female key lower left of the first plot.
